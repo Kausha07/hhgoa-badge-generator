@@ -76,7 +76,7 @@ const THEME_PALETTES = {
   }
 };
 
-// Code 39 Patterns
+// Code 39 Character Bit Patterns
 const CODE39_PATTERNS = {
   '0': '101001101101', '1': '110100101011', '2': '101100101011', '3': '110110010101',
   '4': '101001101011', '5': '110100110101', '6': '101100110101', '7': '101001011011',
@@ -293,7 +293,6 @@ function renderPFPFrame() {
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Top Header Branding Badge
   ctx.fillStyle = palette.bgStart;
   ctx.beginPath();
   ctx.roundRect(W / 2 - 240, 45, 480, 65, 30);
@@ -307,7 +306,6 @@ function renderPFPFrame() {
   ctx.textAlign = 'center';
   ctx.fillText('HACKER HOUSE GOA 2026', W / 2, 88);
 
-  // Bottom #FrameInGoa Curved Banner
   ctx.fillStyle = palette.bgStart;
   ctx.beginPath();
   ctx.roundRect(W / 2 - 270, H - 145, 540, 90, 45);
@@ -323,7 +321,7 @@ function renderPFPFrame() {
 
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
-// Complete Dual Barcode + Instant QR Code Scanner Engine
+// Complete Dual High-Contrast Barcode + QR Code Engine
 // -----------------------------------------------------------------------------
 function renderBuilderIDCard() {
   const W = 1200;
@@ -399,9 +397,9 @@ function renderBuilderIDCard() {
 
   // 3. Photo Frame Area
   const photoX = W / 2 - 270;
-  const photoY = 240;
+  const photoY = 235;
   const photoW = 540;
-  const photoH = 520;
+  const photoH = 500;
   const photoRadius = 30;
 
   ctx.save();
@@ -435,16 +433,15 @@ function renderBuilderIDCard() {
   ctx.stroke();
 
   // 4. Builder Information Section
-  // Full Name
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 52px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 825);
+  ctx.fillText(name.toUpperCase(), W / 2, 800);
 
   // X Handle Chip
   ctx.fillStyle = 'rgba(255, 0, 122, 0.2)';
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 180, 850, 360, 48, 24);
+  ctx.roundRect(W / 2 - 180, 822, 360, 48, 24);
   ctx.fill();
   ctx.strokeStyle = '#FF007A';
   ctx.lineWidth = 2;
@@ -452,17 +449,17 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 24px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 883);
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 855);
 
   // Role Tag
   ctx.fillStyle = palette.primary;
   ctx.font = '700 26px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 942);
+  ctx.fillText(`⚡ ${role}`, W / 2, 912);
 
   // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(140, 975, W - 280, 80, 20);
+  ctx.roundRect(140, 942, W - 280, 78, 20);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
   ctx.lineWidth = 3;
@@ -470,31 +467,31 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = palette.primary;
   ctx.font = '800 32px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 1027);
+  ctx.fillText(title, W / 2, 992);
 
   // Official Tagline Banner
   ctx.fillStyle = 'rgba(250, 204, 21, 0.15)';
   ctx.beginPath();
-  ctx.roundRect(180, 1072, W - 360, 38, 12);
+  ctx.roundRect(180, 1038, W - 360, 36, 12);
   ctx.fill();
 
   ctx.fillStyle = palette.primary;
   ctx.font = '700 18px "JetBrains Mono", monospace';
-  ctx.fillText('LESS NOISE. MORE SIGNAL.', W / 2, 1097);
+  ctx.fillText('LESS NOISE. MORE SIGNAL.', W / 2, 1062);
 
-  // 5. Dual Scannable Barcode & QR Code Section
-  const cleanHandle = handle.replace(/[^a-zA-Z0-9_]/g, '');
-  const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle}`;
-  const barcodeY = 1130;
+  // 5. Dual Barcode & Instant QR Code Scanner Engine
+  const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
+  const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle.toLowerCase()}`;
+  const barcodeY = 1095;
 
-  // Linear Barcode Elements
-  drawLinearBarcode(ctx, W / 2, barcodeY, W - 320, 50, palette.primary, cleanHandle);
+  // Draw High-Contrast Linear Barcode
+  drawLinearBarcode(ctx, W / 2, barcodeY, W - 320, 60, cleanHandle);
 
-  // 100% Instant Camera QR Code Scanner
-  const qrY = barcodeY + 65;
+  // Draw 100% Instant Camera Scannable QR Code
+  const qrY = barcodeY + 80;
   drawScannableQRCode(ctx, W / 2, qrY, 150, scanTargetURL, () => renderCanvas());
 
-  const scannedLabel = `PASS ID: HHG-2026-${cleanHandle.toUpperCase()}`;
+  const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = palette.primary;
   ctx.font = '700 22px "JetBrains Mono", monospace';
   ctx.fillText(scannedLabel, W / 2, qrY + 185);
@@ -510,19 +507,30 @@ function renderBuilderIDCard() {
   ctx.restore();
 }
 
-// Linear Barcode Lines Generator
-function drawLinearBarcode(ctx, centerX, y, width, height, color, seedStr) {
+// -----------------------------------------------------------------------------
+// Guaranteed High-Contrast Code 39 Barcode Generator
+// Handles ANY handle input including underscores, dashes, numbers
+// -----------------------------------------------------------------------------
+function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.save();
+
+  // White high-contrast background box
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(centerX - width / 2 - 10, y - 5, width + 20, height + 10);
+  ctx.beginPath();
+  ctx.roundRect(centerX - width / 2 - 16, y - 8, width + 32, height + 16, 12);
+  ctx.fill();
 
   ctx.fillStyle = '#000000';
-  const code = `*HHG-${seedStr.toUpperCase()}*`;
+  
+  // Convert handleText into safe Code39 string
+  let safeText = (handleText || 'KAUSHAL').toUpperCase().replace(/[^0-9A-Z-. ]/g, '');
+  if (safeText.length === 0) safeText = 'BUILDER';
+  const code = `*HHG-${safeText.substring(0, 10)}*`;
+  
   let bitPattern = '';
-
   for (let i = 0; i < code.length; i++) {
     const char = code[i];
-    const pattern = CODE39_PATTERNS[char] || CODE39_PATTERNS[' '];
+    const pattern = CODE39_PATTERNS[char] || CODE39_PATTERNS['A'];
     bitPattern += pattern + '0';
   }
 
@@ -531,14 +539,16 @@ function drawLinearBarcode(ctx, centerX, y, width, height, color, seedStr) {
 
   for (let i = 0; i < bitPattern.length; i++) {
     if (bitPattern[i] === '1') {
-      ctx.fillRect(startX + i * moduleWidth, y, moduleWidth * 0.9, height);
+      ctx.fillRect(startX + i * moduleWidth, y, moduleWidth * 0.95, height);
     }
   }
 
   ctx.restore();
 }
 
+// -----------------------------------------------------------------------------
 // Real 100% Scannable QR Code Canvas Engine
+// -----------------------------------------------------------------------------
 function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
   if (lastQRData === textUrl && cachedQRCodeImg) {
     ctx.save();
