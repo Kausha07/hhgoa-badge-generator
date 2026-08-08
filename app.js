@@ -502,10 +502,26 @@ function setupCanvasInteractions() {
   };
 
   const startDrag = (e) => {
-    isDragging = true;
     const coords = getEventCoords(e);
-    startX = coords.x - transformState.offsetX;
-    startY = coords.y - transformState.offsetY;
+
+    // Photo frame bounds: X from 350 to 850, Y from 260 to 730
+    const photoX = 350;
+    const photoY = 260;
+    const photoW = 500;
+    const photoH = 470;
+
+    if (
+      coords.x >= photoX &&
+      coords.x <= photoX + photoW &&
+      coords.y >= photoY &&
+      coords.y <= photoY + photoH
+    ) {
+      isDragging = true;
+      startX = coords.x - transformState.offsetX;
+      startY = coords.y - transformState.offsetY;
+    } else {
+      isDragging = false;
+    }
   };
 
   const doDrag = (e) => {
