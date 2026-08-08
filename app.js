@@ -1,9 +1,8 @@
 // =============================================================================
-// HH GOA 2026 - Official Brand Frame & Builder ID Pass Generator
+// HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
 // Exact Website Logo Typography & Dual Barcode/QR Scanner System
 // =============================================================================
 
-let currentFormat = 'B'; // 'A' = PFP Frame, 'B' = Builder ID Card
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
 let userImage = null;
 let userHasUploadedPhoto = false; // Strict photo upload requirement flag
@@ -19,7 +18,7 @@ const transformState = {
   flipped: false
 };
 
-// Canvas & Context
+// Canvas & Context (Format B Dimensions: 1200 x 1600)
 const canvas = document.getElementById('badge-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -100,6 +99,8 @@ let startX, startY;
 
 // Initialize App
 window.addEventListener('DOMContentLoaded', () => {
+  canvas.width = 1200;
+  canvas.height = 1600;
   createDefaultPlaceholderImage();
   setupCanvasInteractions();
 });
@@ -139,28 +140,7 @@ function createDefaultPlaceholderImage() {
   };
 }
 
-// -----------------------------------------------------------------------------
-// Format & Theme Switchers
-// -----------------------------------------------------------------------------
-function switchFormat(format) {
-  currentFormat = format;
-  document.getElementById('tab-format-a').classList.toggle('active', format === 'A');
-  document.getElementById('tab-format-b').classList.toggle('active', format === 'B');
-
-  document.getElementById('format-b-fields').style.display = format === 'B' ? 'flex' : 'none';
-  document.getElementById('preview-mode-tag').innerText = format === 'B' ? 'Builder ID Pass' : 'PFP Frame';
-
-  if (format === 'A') {
-    canvas.width = 1080;
-    canvas.height = 1080;
-  } else {
-    canvas.width = 1200;
-    canvas.height = 1600;
-  }
-
-  renderCanvas();
-}
-
+// Theme Switcher
 function setTheme(theme) {
   currentTheme = theme;
   document.querySelectorAll('.theme-chip').forEach(chip => {
@@ -175,9 +155,7 @@ function generateRandomTitle() {
   renderCanvas();
 }
 
-// -----------------------------------------------------------------------------
 // Photo Transformations
-// -----------------------------------------------------------------------------
 function updateAdjustment(type, value) {
   transformState[type] = parseFloat(value);
   
@@ -214,9 +192,7 @@ function resetAdjustments() {
   renderCanvas();
 }
 
-// -----------------------------------------------------------------------------
 // Image Upload Handler
-// -----------------------------------------------------------------------------
 function handleImageUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -249,101 +225,14 @@ function requirePhotoUpload() {
   return true;
 }
 
-// -----------------------------------------------------------------------------
 // Core Canvas Rendering Engine
-// -----------------------------------------------------------------------------
 function renderCanvas() {
   if (!userImage) return;
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (currentFormat === 'A') {
-    renderPFPFrame();
-  } else {
-    renderBuilderIDCard();
-  }
+  renderBuilderIDCard();
 }
 
-// -----------------------------------------------------------------------------
-// FORMAT A: PFP Overlay / Frame (1080 x 1080)
-// -----------------------------------------------------------------------------
-function renderPFPFrame() {
-  const W = 1080;
-  const H = 1080;
-  const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
-
-  ctx.save();
-  ctx.fillStyle = palette.bgStart;
-  ctx.fillRect(0, 0, W, H);
-
-  const centerX = W / 2;
-  const centerY = H / 2 - 20;
-  const radius = 430;
-
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-  ctx.clip();
-
-  ctx.save();
-  ctx.translate(centerX + transformState.offsetX, centerY + transformState.offsetY);
-  ctx.rotate((transformState.rotate * Math.PI) / 180);
-  if (transformState.flipped) ctx.scale(-1, 1);
-  ctx.scale(transformState.scale, transformState.scale);
-
-  const aspect = userImage.width / userImage.height;
-  let drawW = radius * 2;
-  let drawH = (radius * 2) / aspect;
-  if (drawH < radius * 2) {
-    drawH = radius * 2;
-    drawW = radius * 2 * aspect;
-  }
-
-  ctx.drawImage(userImage, -drawW / 2, -drawH / 2, drawW, drawH);
-  ctx.restore();
-  ctx.restore();
-
-  ctx.lineWidth = 28;
-  const ringGrad = ctx.createLinearGradient(0, 0, W, H);
-  ringGrad.addColorStop(0, palette.primary);
-  ringGrad.addColorStop(1, palette.secondary);
-  ctx.strokeStyle = ringGrad;
-
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-  ctx.stroke();
-
-  // Top Header Branding
-  ctx.fillStyle = palette.bgStart;
-  ctx.beginPath();
-  ctx.roundRect(W / 2 - 250, 45, 500, 65, 30);
-  ctx.fill();
-  ctx.strokeStyle = palette.primary;
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  ctx.fillStyle = palette.primary;
-  ctx.font = '900 26px "Space Grotesk", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('HACKER HOUSE GOA 2026', W / 2, 88);
-
-  // Bottom #FrameInGoa Banner
-  ctx.fillStyle = palette.bgStart;
-  ctx.beginPath();
-  ctx.roundRect(W / 2 - 270, H - 145, 540, 90, 45);
-  ctx.fill();
-  ctx.strokeStyle = palette.secondary;
-  ctx.lineWidth = 4;
-  ctx.stroke();
-
-  ctx.fillStyle = palette.primary;
-  ctx.font = '900 36px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ 28-31 OCT', W / 2, H - 88);
-}
-
-// -----------------------------------------------------------------------------
-// FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
-// Exact hhgoa.com 3-Line Header Logo (HACKER [गोवा] HOUSE)
-// -----------------------------------------------------------------------------
+// Builder ID Card / Event Badge (1200 x 1600)
 function renderBuilderIDCard() {
   const W = 1200;
   const H = 1600;
@@ -374,7 +263,7 @@ function renderBuilderIDCard() {
   ctx.stroke();
 
   // 2. Exact Website 3-Line Header Logo (HACKER [गोवा] HOUSE)
-  // Top Line: BUILDER PASS  ·  GOA 2026 (Hot Pink)
+  // Top Line: BUILDER PASS · GOA 2026 (Hot Pink)
   ctx.fillStyle = '#FF007A';
   ctx.font = '700 20px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
@@ -407,7 +296,7 @@ function renderBuilderIDCard() {
   ctx.fillText('गोवा', W / 2, 148);
   ctx.restore();
 
-  // Bottom Line: GOA, INDIA  ·  28 – 31 OCT 2026 (White Monospace)
+  // Bottom Line: GOA, INDIA · 28 – 31 OCT 2026 (White Monospace)
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 18px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
@@ -520,9 +409,7 @@ function renderBuilderIDCard() {
   ctx.restore();
 }
 
-// -----------------------------------------------------------------------------
 // Guaranteed High-Contrast Code 39 Barcode Generator
-// -----------------------------------------------------------------------------
 function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.save();
 
@@ -591,9 +478,7 @@ function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
   }
 }
 
-// -----------------------------------------------------------------------------
 // Interactive Drag & Touch Controls on Canvas
-// -----------------------------------------------------------------------------
 function setupCanvasInteractions() {
   const getEventCoords = (e) => {
     const rect = canvas.getBoundingClientRect();
@@ -651,15 +536,12 @@ function toggleAccordion(id) {
   icon.innerText = isHidden ? '▼' : '▲';
 }
 
-// -----------------------------------------------------------------------------
 // Download, Copy & Share Functions (Strict Photo Requirement Enforcement)
-// -----------------------------------------------------------------------------
 function downloadGraphic() {
   if (!requirePhotoUpload()) return;
 
   const link = document.createElement('a');
-  const filename = currentFormat === 'B' ? 'HH_Goa_2026_Builder_Pass.png' : 'HH_Goa_2026_PFP_Frame.png';
-  link.download = filename;
+  link.download = 'HH_Goa_2026_Builder_Pass.png';
   link.href = canvas.toDataURL('image/png', 1.0);
   link.click();
 
