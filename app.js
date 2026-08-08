@@ -1,6 +1,6 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
-// 2X Massive High-Visibility Typography Engine & Perfected Padding Layout
+// 100% Scannable Code 39 Barcode Engine (Decodes to PASS ID: HHG-2026-<HANDLE>)
 // =============================================================================
 
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
@@ -16,7 +16,7 @@ const transformState = {
   flipped: false
 };
 
-// Canvas & Context (High-Res 1200 x 1360 with Massive Scaled Fonts)
+// Canvas & Context (High-Res 1200 x 1360 with Scannable Barcode Engine)
 const canvas = document.getElementById('badge-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -78,18 +78,18 @@ const THEME_PALETTES = {
   }
 };
 
-// Code 39 Character Bit Patterns
-const CODE39_PATTERNS = {
-  '0': '101001101101', '1': '110100101011', '2': '101100101011', '3': '110110010101',
-  '4': '101001101011', '5': '110100110101', '6': '101100110101', '7': '101001011011',
-  '8': '110100101101', '9': '101100101101', 'A': '110101001011', 'B': '101101001011',
-  'C': '110110100101', 'D': '101011001011', 'E': '110101100101', 'F': '101101100101',
-  'G': '101010011011', 'H': '110101001101', 'I': '101101001101', 'J': '101011001101',
-  'K': '110101010011', 'L': '101101010011', 'M': '110110101001', 'N': '101011010011',
-  'O': '110101101001', 'P': '101101101001', 'Q': '101010110011', 'R': '110101011001',
-  'S': '101101011001', 'T': '101011011001', 'U': '110010101011', 'V': '100110101011',
-  'W': '110011010101', 'X': '100101101011', 'Y': '110010110101', 'Z': '100110110101',
-  '-': '100101011011', '.': '110010101101', ' ': '100110101101', '*': '100101101101'
+// Official Code 39 Specification Patterns (9 elements: b s b s b s b s b, 'w'=wide=3u, 'n'=narrow=1u)
+const CODE39_SPEC = {
+  '0': 'nnnwwnwnn', '1': 'wnnwnnnnw', '2': 'nnwwnnnnw', '3': 'wnwwnnnnn',
+  '4': 'nnnwwnnnw', '5': 'wnnwwnnnn', '6': 'nnwwwnnnn', '7': 'nnnwnnwnw',
+  '8': 'wnnwnnwnn', '9': 'nnwwnnwnn', 'A': 'wnnnnwnnw', 'B': 'nnwnnwnnw',
+  'C': 'wnwnnwnnn', 'D': 'nnnnwwnnw', 'E': 'wnnnwwnnn', 'F': 'nnwnwwnnn',
+  'G': 'nnnnnwwnw', 'H': 'wnnnnwwnn', 'I': 'nnwnnwwnn', 'J': 'nnnnwwwnn',
+  'K': 'wnnnnnnww', 'L': 'nnwnnnnww', 'M': 'wnwnnnnwn', 'N': 'nnnnwnnww',
+  'O': 'wnnnwnnwn', 'P': 'nnwnwnnwn', 'Q': 'nnnnnnwww', 'R': 'wnnnnnwwn',
+  'S': 'nnwnnnwwn', 'T': 'nnnnwnwwn', 'U': 'wwnnnnnnw', 'V': 'nwwnnnnnw',
+  'W': 'wwwnnnnnn', 'X': 'nwnnwnnnw', 'Y': 'wwnnwnnnn', 'Z': 'nwwnwnnnn',
+  '-': 'nwnnnnwnw', '.': 'wwnnnnwnn', ' ': 'nwwnnnwnn', '*': 'nwnnwnwnn'
 };
 
 let isDragging = false;
@@ -249,7 +249,6 @@ function renderCanvas() {
 }
 
 // Builder ID Card / Event Badge (1200 x 1360)
-// 2X Massive Typography Engine: Huge, Ultra-Readable Fonts Across Every Element
 function renderBuilderIDCard() {
   const W = 1200;
   const H = 1360;
@@ -280,7 +279,7 @@ function renderBuilderIDCard() {
   ctx.roundRect(25, 25, W - 50, H - 50, 44);
   ctx.stroke();
 
-  // 2. Header Logo (HACKER [गोवा] HOUSE) - 2X Massive Typography
+  // 2. Header Logo (HACKER [गोवा] HOUSE)
   ctx.fillStyle = '#FF007A';
   ctx.font = '800 32px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
@@ -288,17 +287,17 @@ function renderBuilderIDCard() {
 
   ctx.font = '900 96px "Playfair Display", Georgia, serif';
 
-  // HACKER on Left (Electric Gold 96px)
+  // HACKER on Left
   ctx.textAlign = 'right';
   ctx.fillStyle = '#FACC15';
   ctx.fillText('HACKER', W / 2 - 60, 175);
 
-  // HOUSE on Right (Electric Gold 96px)
+  // HOUSE on Right
   ctx.textAlign = 'left';
   ctx.fillStyle = '#FACC15';
   ctx.fillText('HOUSE', W / 2 + 60, 175);
 
-  // Hot Pink Devanagari [गोवा] in Center with Yellow Glow Outline
+  // Hot Pink Devanagari [गोवा] in Center
   ctx.save();
   ctx.textAlign = 'center';
   ctx.font = '900 64px Outfit, sans-serif';
@@ -311,7 +310,7 @@ function renderBuilderIDCard() {
   ctx.fillText('गोवा', W / 2, 170);
   ctx.restore();
 
-  // Subtitle Date (28px White Monospace)
+  // Subtitle Date
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '800 28px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
@@ -361,14 +360,13 @@ function renderBuilderIDCard() {
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
-  // 4. Builder Information Section (2X Massive Fonts)
-  // Full Name (Pure White 68px Extra Bold)
+  // 4. Builder Information Section
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 68px Outfit, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(name.toUpperCase(), W / 2, 792);
 
-  // X Handle Chip (36px Gold Monospace inside 58px Glass Pill)
+  // X Handle Chip
   let nextY = 822;
   if (handle) {
     ctx.fillStyle = 'rgba(250, 204, 21, 0.18)';
@@ -387,13 +385,13 @@ function renderBuilderIDCard() {
     nextY += 20;
   }
 
-  // Role Tag (38px Neon Mint Bold)
+  // Role Tag
   ctx.fillStyle = palette.accentText;
   ctx.font = '800 38px Outfit, sans-serif';
   ctx.fillText(`⚡ ${role}`, W / 2, nextY + 25);
   nextY += 58;
 
-  // Builder Title Box (46px Gold Extra Bold inside 86px Title Box)
+  // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
   ctx.roundRect(90, nextY, W - 180, 86, 24);
@@ -407,20 +405,20 @@ function renderBuilderIDCard() {
   ctx.fillText(title, W / 2, nextY + 58);
   nextY += 114;
 
-  // 5. Official High-Contrast Linear Barcode Scanner Section (Height 70px)
+  // 5. 100% Scannable Official Code 39 Barcode (Decodes to HHG-2026-<HANDLE>)
   const cleanHandle = handle ? handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() : 'BUILDER';
+  const passIdText = `HHG-2026-${cleanHandle}`;
   
-  drawLinearBarcode(ctx, W / 2, nextY, W - 280, 70, cleanHandle);
-  nextY += 104;
+  drawScannableCode39Barcode(ctx, W / 2, nextY, W - 240, 72, passIdText);
+  nextY += 106;
 
-  // Pass ID (34px Gold Monospace)
-  const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
+  // Pass ID Text
   ctx.fillStyle = '#FACC15';
   ctx.font = '800 34px "JetBrains Mono", monospace';
-  ctx.fillText(scannedLabel, W / 2, nextY);
+  ctx.fillText(`PASS ID: ${passIdText}`, W / 2, nextY);
   nextY += 48;
 
-  // Footer Hashtag Tagline (36px Mint Bold)
+  // Footer Tagline
   ctx.fillStyle = palette.accentText;
   ctx.font = '900 36px Outfit, sans-serif';
   ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, nextY);
@@ -428,34 +426,73 @@ function renderBuilderIDCard() {
   ctx.restore();
 }
 
-// Guaranteed High-Contrast Code 39 Barcode Generator (70px Height)
-function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
+// 100% Specification-Compliant Code 39 Barcode Generator
+// Decodes directly to string (e.g. HHG-2026-KAUSHALDEV) when scanned by mobile phone cameras!
+function drawScannableCode39Barcode(ctx, centerX, y, availableWidth, height, textToEncode) {
   ctx.save();
 
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath();
-  ctx.roundRect(centerX - width / 2 - 20, y - 8, width + 40, height + 16, 12);
-  ctx.fill();
-
-  ctx.fillStyle = '#000000';
-  let safeText = (handleText || 'BUILDER').toUpperCase().replace(/[^0-9A-Z-. ]/g, '');
-  if (safeText.length === 0) safeText = 'BUILDER';
-  const code = `*HHG-${safeText.substring(0, 10)}*`;
+  let raw = textToEncode.toUpperCase().replace(/[^0-9A-Z-. ]/g, '');
+  if (!raw) raw = 'HHG-2026-BUILDER';
   
-  let bitPattern = '';
-  for (let i = 0; i < code.length; i++) {
-    const char = code[i];
-    const pattern = CODE39_PATTERNS[char] || CODE39_PATTERNS['A'];
-    bitPattern += pattern + '0';
+  // Code 39 requires Start/Stop character '*'
+  const fullCode = `*${raw}*`;
+
+  // Calculate total module width of Code 39 text
+  // Wide element = 3 units, narrow element = 1 unit. Inter-character space = 1 unit.
+  let totalUnits = 0;
+  const elements = [];
+
+  for (let i = 0; i < fullCode.length; i++) {
+    const char = fullCode[i];
+    const pattern = CODE39_SPEC[char] || CODE39_SPEC['*'];
+
+    // 9 elements per character (5 bars, 4 spaces)
+    for (let p = 0; p < 9; p++) {
+      const isBar = (p % 2 === 0);
+      const isWide = (pattern[p] === 'w');
+      const widthUnits = isWide ? 3 : 1;
+
+      elements.push({ isBar, widthUnits });
+      totalUnits += widthUnits;
+    }
+
+    // Inter-character gap space (1 unit) except after last character
+    if (i < fullCode.length - 1) {
+      elements.push({ isBar: false, widthUnits: 1 });
+      totalUnits += 1;
+    }
   }
 
-  const moduleWidth = width / bitPattern.length;
-  const startX = centerX - width / 2;
+  // Determine narrow module width
+  const unitWidth = (availableWidth - 80) / totalUnits;
+  const actualBarcodeWidth = totalUnits * unitWidth;
 
-  for (let i = 0; i < bitPattern.length; i++) {
-    if (bitPattern[i] === '1') {
-      ctx.fillRect(startX + i * moduleWidth, y, moduleWidth * 0.95, height);
+  // Draw Solid White High-Contrast Quiet Zone Box
+  const quietZonePaddingX = 32;
+  const quietZonePaddingY = 12;
+  ctx.fillStyle = '#FFFFFF';
+  ctx.beginPath();
+  ctx.roundRect(
+    centerX - actualBarcodeWidth / 2 - quietZonePaddingX,
+    y - quietZonePaddingY,
+    actualBarcodeWidth + quietZonePaddingX * 2,
+    height + quietZonePaddingY * 2,
+    14
+  );
+  ctx.fill();
+
+  // Render Barcode Black & White Bars
+  ctx.fillStyle = '#000000';
+  let curX = centerX - actualBarcodeWidth / 2;
+
+  for (let i = 0; i < elements.length; i++) {
+    const elem = elements[i];
+    const elemPxWidth = elem.widthUnits * unitWidth;
+
+    if (elem.isBar) {
+      ctx.fillRect(curX, y, elemPxWidth + 0.3, height);
     }
+    curX += elemPxWidth;
   }
 
   ctx.restore();
