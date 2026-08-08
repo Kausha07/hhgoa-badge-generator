@@ -1,12 +1,12 @@
 // =============================================================================
-// HH Goa 2026 - Official Brand Frame & Builder ID Pass Generator
-// Official Website Theme Engine (https://hhgoa.com/)
+// HH GOA 2026 - Ultra-Premium Brand Frame & Builder ID Pass Generator
+// Selection Task Build for Hacker House Goa 2026
 // =============================================================================
 
 let currentFormat = 'B'; // 'A' = PFP Frame, 'B' = Builder ID Card
-let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
+let currentTheme = 'official'; // 'official', 'emerald', 'neon', 'sunset'
 let userImage = null;
-let userHasUploadedPhoto = false; // Strict photo requirement flag
+let userHasUploadedPhoto = false; // Strict photo upload requirement flag
 let cachedQRCodeImg = null;
 let lastQRData = '';
 
@@ -37,8 +37,17 @@ const BUILDER_TITLES = [
   "Distributed Systems Monk 🧘"
 ];
 
-// Color Theme Palettes matching exact hhgoa.com website screenshot
+// Color Theme Palettes
 const THEME_PALETTES = {
+  official: {
+    primary: '#00FF87',
+    secondary: '#00F2FE',
+    bgStart: '#080F1D',
+    bgEnd: '#02060D',
+    badgeBg: '#111C30',
+    accentText: '#00FF87',
+    tagBg: '#00F2FE'
+  },
   emerald: {
     primary: '#FACC15',
     secondary: '#FF007A',
@@ -47,15 +56,6 @@ const THEME_PALETTES = {
     badgeBg: '#003B22',
     accentText: '#FACC15',
     tagBg: '#FF007A'
-  },
-  official: {
-    primary: '#00FF87',
-    secondary: '#00F2FE',
-    bgStart: '#090D16',
-    bgEnd: '#020408',
-    badgeBg: '#131B2E',
-    accentText: '#00FF87',
-    tagBg: '#00F2FE'
   },
   neon: {
     primary: '#00F2FE',
@@ -108,12 +108,12 @@ function createDefaultPlaceholderImage() {
   const pCtx = pCanvas.getContext('2d');
 
   const grad = pCtx.createLinearGradient(0, 0, 600, 600);
-  grad.addColorStop(0, '#004D2C');
-  grad.addColorStop(1, '#002B18');
+  grad.addColorStop(0, '#111C30');
+  grad.addColorStop(1, '#080F1D');
   pCtx.fillStyle = grad;
   pCtx.fillRect(0, 0, 600, 600);
 
-  pCtx.fillStyle = 'rgba(250, 204, 21, 0.15)';
+  pCtx.fillStyle = 'rgba(0, 255, 135, 0.15)';
   pCtx.beginPath();
   pCtx.arc(300, 240, 110, 0, Math.PI * 2);
   pCtx.fill();
@@ -122,7 +122,7 @@ function createDefaultPlaceholderImage() {
   pCtx.arc(300, 520, 200, Math.PI, 0);
   pCtx.fill();
 
-  pCtx.fillStyle = '#FACC15';
+  pCtx.fillStyle = '#00FF87';
   pCtx.font = 'bold 26px Outfit, sans-serif';
   pCtx.textAlign = 'center';
   pCtx.fillText('UPLOAD PHOTO REQUIRED 📸', 300, 310);
@@ -211,7 +211,7 @@ function resetAdjustments() {
 }
 
 // -----------------------------------------------------------------------------
-// Image Upload Handler (Sets strict upload flag)
+// Image Upload Handler
 // -----------------------------------------------------------------------------
 function handleImageUpload(e) {
   const file = e.target.files[0];
@@ -223,7 +223,7 @@ function handleImageUpload(e) {
     img.src = event.target.result;
     img.onload = () => {
       userImage = img;
-      userHasUploadedPhoto = true; // Photo is uploaded!
+      userHasUploadedPhoto = true;
       resetAdjustments();
       renderCanvas();
       showToast('Photo uploaded successfully! 📸');
@@ -232,7 +232,6 @@ function handleImageUpload(e) {
   reader.readAsDataURL(file);
 }
 
-// Check if photo is uploaded, otherwise prompt user
 function requirePhotoUpload() {
   if (!userHasUploadedPhoto) {
     showToast('⚠️ Please upload your photo first to generate your badge!');
@@ -309,19 +308,21 @@ function renderPFPFrame() {
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
   ctx.stroke();
 
+  // Top Header Branding
   ctx.fillStyle = palette.bgStart;
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 240, 45, 480, 65, 30);
+  ctx.roundRect(W / 2 - 250, 45, 500, 65, 30);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
   ctx.lineWidth = 3;
   ctx.stroke();
 
   ctx.fillStyle = palette.primary;
-  ctx.font = '900 26px "Playfair Display", Georgia, serif';
+  ctx.font = '900 26px "Space Grotesk", sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('HACKER HOUSE GOA 2026', W / 2, 88);
 
+  // Bottom #FrameInGoa Banner
   ctx.fillStyle = palette.bgStart;
   ctx.beginPath();
   ctx.roundRect(W / 2 - 270, H - 145, 540, 90, 45);
@@ -337,7 +338,7 @@ function renderPFPFrame() {
 
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
-// Complete Dual High-Contrast Barcode + QR Code Engine
+// Ultra-Clean High-Contrast Typography & Dual Barcode/QR Scanner
 // -----------------------------------------------------------------------------
 function renderBuilderIDCard() {
   const W = 1200;
@@ -351,7 +352,7 @@ function renderBuilderIDCard() {
 
   ctx.save();
 
-  // 1. Background & Border Frame
+  // 1. Background & Glowing Frame
   const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
   bgGrad.addColorStop(0, palette.bgStart);
   bgGrad.addColorStop(1, palette.bgEnd);
@@ -369,7 +370,7 @@ function renderBuilderIDCard() {
   ctx.stroke();
 
   // 2. Header Branding
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
   ctx.beginPath();
   ctx.roundRect(60, 48, 230, 38, 10);
   ctx.fill();
@@ -384,27 +385,14 @@ function renderBuilderIDCard() {
   ctx.textAlign = 'right';
   ctx.fillText('GOA, INDIA · 28 – 31 OCT 2026', W - 70, 73);
 
-  // Clean Header Title
+  // Clean Header Banner Text
   ctx.fillStyle = palette.primary;
-  ctx.font = '900 58px "Playfair Display", Georgia, serif';
+  ctx.font = '900 52px "Space Grotesk", sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('HACKER HOUSE', W / 2 - 40, 155);
-
-  // Pink Devanagari Hindi "गोवा" Badge beside title
-  ctx.fillStyle = '#FF007A';
-  ctx.beginPath();
-  ctx.roundRect(W / 2 + 210, 108, 115, 58, 14);
-  ctx.fill();
-  ctx.strokeStyle = '#FFFFFF';
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 34px Outfit, sans-serif';
-  ctx.fillText('गोवा', W / 2 + 267, 149);
+  ctx.fillText('HACKER HOUSE GOA 2026', W / 2, 155);
 
   // Divider Line
-  ctx.strokeStyle = 'rgba(250, 204, 21, 0.3)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(80, 185);
@@ -448,7 +436,8 @@ function renderBuilderIDCard() {
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
-  // 4. Builder Info
+  // 4. Builder Information Section
+  // Full Name
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 48px Outfit, sans-serif';
   ctx.textAlign = 'center';
@@ -486,7 +475,7 @@ function renderBuilderIDCard() {
   ctx.fillText(title, W / 2, 902);
 
   // Official Tagline Banner
-  ctx.fillStyle = 'rgba(250, 204, 21, 0.15)';
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
   ctx.beginPath();
   ctx.roundRect(180, 942, W - 360, 36, 12);
   ctx.fill();
@@ -524,7 +513,7 @@ function renderBuilderIDCard() {
 }
 
 // -----------------------------------------------------------------------------
-// Code 39 Barcode Generator
+// Guaranteed High-Contrast Code 39 Barcode Generator
 // -----------------------------------------------------------------------------
 function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.save();
