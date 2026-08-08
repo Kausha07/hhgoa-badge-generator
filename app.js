@@ -321,7 +321,7 @@ function renderPFPFrame() {
 
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
-// Complete Dual High-Contrast Barcode + QR Code Engine
+// Clean Header Typography + Dual Barcode & QR Code Engine
 // -----------------------------------------------------------------------------
 function renderBuilderIDCard() {
   const W = 1200;
@@ -352,55 +352,55 @@ function renderBuilderIDCard() {
   ctx.roundRect(30, 30, W - 60, H - 60, 40);
   ctx.stroke();
 
-  // 2. Top Header Branding - 2:47 PM STUDIO & HACKER HOUSE
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+  // 2. Header Branding
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
   ctx.beginPath();
-  ctx.roundRect(60, 50, 240, 40, 10);
+  ctx.roundRect(60, 48, 230, 38, 10);
   ctx.fill();
 
   ctx.fillStyle = palette.primary;
-  ctx.font = '900 20px "JetBrains Mono", monospace';
+  ctx.font = '900 18px "JetBrains Mono", monospace';
   ctx.textAlign = 'left';
-  ctx.fillText('2:47 PM STUDIO', 80, 77);
+  ctx.fillText('2:47 PM STUDIO', 78, 73);
 
   ctx.fillStyle = palette.primary;
-  ctx.font = '700 20px "JetBrains Mono", monospace';
+  ctx.font = '700 18px "JetBrains Mono", monospace';
   ctx.textAlign = 'right';
-  ctx.fillText('GOA, INDIA · 28 – 31 OCT 2026', W - 70, 77);
+  ctx.fillText('GOA, INDIA · 28 – 31 OCT 2026', W - 70, 73);
 
-  // Big Serif Banner Text: HACKER HOUSE + Pink "गोवा" Badge
+  // Clean Header Title (No text overlap!)
   ctx.fillStyle = palette.primary;
-  ctx.font = '900 68px "Playfair Display", Georgia, serif';
+  ctx.font = '900 58px "Playfair Display", Georgia, serif';
   ctx.textAlign = 'center';
-  ctx.fillText('HACKER HOUSE', W / 2, 175);
+  ctx.fillText('HACKER HOUSE', W / 2 - 40, 155);
 
-  // Devanagari Hot Pink Badge overlay "गोवा"
+  // Pink Devanagari Hindi "गोवा" Badge beside title
   ctx.fillStyle = '#FF007A';
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 65, 122, 130, 68, 16);
+  ctx.roundRect(W / 2 + 210, 108, 115, 58, 14);
   ctx.fill();
   ctx.strokeStyle = '#FFFFFF';
-  ctx.lineWidth = 4;
+  ctx.lineWidth = 3;
   ctx.stroke();
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 42px Outfit, sans-serif';
-  ctx.fillText('गोवा', W / 2, 172);
+  ctx.font = '900 34px Outfit, sans-serif';
+  ctx.fillText('गोवा', W / 2 + 267, 149);
 
-  // Decorative Horizontal Divider
+  // Divider Line
   ctx.strokeStyle = 'rgba(250, 204, 21, 0.3)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(100, 210);
-  ctx.lineTo(W - 100, 210);
+  ctx.moveTo(80, 185);
+  ctx.lineTo(W - 80, 185);
   ctx.stroke();
 
   // 3. Photo Frame Area
-  const photoX = W / 2 - 270;
-  const photoY = 235;
-  const photoW = 540;
-  const photoH = 500;
-  const photoRadius = 30;
+  const photoX = W / 2 - 240;
+  const photoY = 215;
+  const photoW = 480;
+  const photoH = 440;
+  const photoRadius = 26;
 
   ctx.save();
   ctx.beginPath();
@@ -426,103 +426,100 @@ function renderBuilderIDCard() {
   ctx.restore();
 
   // Photo Frame Border
-  ctx.lineWidth = 10;
+  ctx.lineWidth = 8;
   ctx.strokeStyle = palette.primary;
   ctx.beginPath();
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
-  // 4. Builder Information Section
+  // 4. Builder Info
+  // Full Name
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 52px Outfit, sans-serif';
+  ctx.font = '900 48px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 800);
+  ctx.fillText(name.toUpperCase(), W / 2, 720);
 
   // X Handle Chip
   ctx.fillStyle = 'rgba(255, 0, 122, 0.2)';
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 180, 822, 360, 48, 24);
+  ctx.roundRect(W / 2 - 170, 742, 340, 44, 22);
   ctx.fill();
   ctx.strokeStyle = '#FF007A';
   ctx.lineWidth = 2;
   ctx.stroke();
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '700 24px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 855);
+  ctx.font = '700 22px "JetBrains Mono", monospace';
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 772);
 
   // Role Tag
   ctx.fillStyle = palette.primary;
-  ctx.font = '700 26px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 912);
+  ctx.font = '700 24px Outfit, sans-serif';
+  ctx.fillText(`⚡ ${role}`, W / 2, 825);
 
   // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(140, 942, W - 280, 78, 20);
+  ctx.roundRect(140, 855, W - 280, 72, 18);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
   ctx.lineWidth = 3;
   ctx.stroke();
 
   ctx.fillStyle = palette.primary;
-  ctx.font = '800 32px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 992);
+  ctx.font = '800 30px Outfit, sans-serif';
+  ctx.fillText(title, W / 2, 902);
 
   // Official Tagline Banner
   ctx.fillStyle = 'rgba(250, 204, 21, 0.15)';
   ctx.beginPath();
-  ctx.roundRect(180, 1038, W - 360, 36, 12);
+  ctx.roundRect(180, 942, W - 360, 36, 12);
   ctx.fill();
 
   ctx.fillStyle = palette.primary;
-  ctx.font = '700 18px "JetBrains Mono", monospace';
-  ctx.fillText('LESS NOISE. MORE SIGNAL.', W / 2, 1062);
+  ctx.font = '700 17px "JetBrains Mono", monospace';
+  ctx.fillText('LESS NOISE. MORE SIGNAL.', W / 2, 965);
 
-  // 5. Dual Barcode & Instant QR Code Scanner Engine
+  // 5. Dual Barcode & 100% Instant Camera Scannable QR Code Engine
   const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
   const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle.toLowerCase()}`;
-  const barcodeY = 1095;
+  const barcodeY = 1000;
 
-  // Draw High-Contrast Linear Barcode
-  drawLinearBarcode(ctx, W / 2, barcodeY, W - 320, 60, cleanHandle);
+  // High-Contrast Linear Barcode
+  drawLinearBarcode(ctx, W / 2, barcodeY, W - 360, 45, cleanHandle);
 
-  // Draw 100% Instant Camera Scannable QR Code
-  const qrY = barcodeY + 80;
-  drawScannableQRCode(ctx, W / 2, qrY, 150, scanTargetURL, () => renderCanvas());
+  // 100% Instant Scannable QR Code
+  const qrY = barcodeY + 68;
+  drawScannableQRCode(ctx, W / 2, qrY, 140, scanTargetURL, () => renderCanvas());
 
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = palette.primary;
-  ctx.font = '700 22px "JetBrains Mono", monospace';
-  ctx.fillText(scannedLabel, W / 2, qrY + 185);
+  ctx.font = '700 20px "JetBrains Mono", monospace';
+  ctx.fillText(scannedLabel, W / 2, qrY + 172);
 
   ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-  ctx.font = '600 20px "JetBrains Mono", monospace';
-  ctx.fillText('VERIFIED BUILDER PASS  ·  2:47 PM STUDIO', W / 2, qrY + 218);
+  ctx.font = '600 18px "JetBrains Mono", monospace';
+  ctx.fillText('VERIFIED BUILDER PASS  ·  2:47 PM STUDIO', W / 2, qrY + 204);
 
   ctx.fillStyle = palette.accentText;
-  ctx.font = '900 26px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 256);
+  ctx.font = '900 24px Outfit, sans-serif';
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 238);
 
   ctx.restore();
 }
 
 // -----------------------------------------------------------------------------
 // Guaranteed High-Contrast Code 39 Barcode Generator
-// Handles ANY handle input including underscores, dashes, numbers
 // -----------------------------------------------------------------------------
 function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.save();
 
-  // White high-contrast background box
   ctx.fillStyle = '#FFFFFF';
   ctx.beginPath();
-  ctx.roundRect(centerX - width / 2 - 16, y - 8, width + 32, height + 16, 12);
+  ctx.roundRect(centerX - width / 2 - 16, y - 6, width + 32, height + 12, 10);
   ctx.fill();
 
   ctx.fillStyle = '#000000';
-  
-  // Convert handleText into safe Code39 string
   let safeText = (handleText || 'KAUSHAL').toUpperCase().replace(/[^0-9A-Z-. ]/g, '');
   if (safeText.length === 0) safeText = 'BUILDER';
   const code = `*HHG-${safeText.substring(0, 10)}*`;
@@ -546,9 +543,7 @@ function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.restore();
 }
 
-// -----------------------------------------------------------------------------
 // Real 100% Scannable QR Code Canvas Engine
-// -----------------------------------------------------------------------------
 function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
   if (lastQRData === textUrl && cachedQRCodeImg) {
     ctx.save();
