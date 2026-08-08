@@ -1,6 +1,6 @@
 // =============================================================================
-// HH GOA 2026 - Ultra-Premium Brand Frame & Builder ID Pass Generator
-// Complete Multi-Theme Engine & Instant Scannable Barcode/QR Code System
+// HH GOA 2026 - Official Brand Frame & Builder ID Pass Generator
+// Clean Goa Theme Engine & Dual Barcode/QR Scanner System
 // =============================================================================
 
 let currentFormat = 'B'; // 'A' = PFP Frame, 'B' = Builder ID Card
@@ -37,14 +37,14 @@ const BUILDER_TITLES = [
   "Distributed Systems Monk 🧘"
 ];
 
-// Color Theme Palettes for Canvas Badge
+// Color Theme Palettes - Goa Tropical Theme as Default
 const THEME_PALETTES = {
   emerald: {
     primary: '#FACC15',      // Electric Gold
     secondary: '#FF007A',    // Hot Pink
-    bgStart: '#004D2C',      // Deep Emerald Green
-    bgEnd: '#002515',        // Dark Emerald
-    badgeBg: '#003B22',      // Title Box Bg
+    bgStart: '#004D2C',      // Deep Tropical Emerald Green
+    bgEnd: '#002615',        // Dark Emerald
+    badgeBg: '#003820',      // Title Box Bg
     accentText: '#00FF87',   // Neon Mint
     handleBg: 'rgba(255, 0, 122, 0.25)',
     handleBorder: '#FF007A'
@@ -113,7 +113,7 @@ function createDefaultPlaceholderImage() {
 
   const grad = pCtx.createLinearGradient(0, 0, 600, 600);
   grad.addColorStop(0, '#004D2C');
-  grad.addColorStop(1, '#002B18');
+  grad.addColorStop(1, '#002515');
   pCtx.fillStyle = grad;
   pCtx.fillRect(0, 0, 600, 600);
 
@@ -342,21 +342,21 @@ function renderPFPFrame() {
 
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
-// Complete Dual Barcode + 100% Instant Camera Scannable QR Code Engine
+// Clean Tropical Goa Aesthetic (No clutter, 100% scannable)
 // -----------------------------------------------------------------------------
 function renderBuilderIDCard() {
   const W = 1200;
   const H = 1600;
   const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
-  const name = document.getElementById('input-name').value || 'Satoshi Nakamoto';
+  const name = document.getElementById('input-name').value || 'SATOSHI NAKAMOTO';
   const handle = document.getElementById('input-handle').value || 'kaushal_dev';
   const role = document.getElementById('input-role').value || 'Full-Stack & AI Systems';
   const title = document.getElementById('input-title').value || 'Kernel Alchemist ⚡';
 
   ctx.save();
 
-  // 1. Background & Glowing Frame
+  // 1. Tropical Deep Emerald Goa Background
   const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
   bgGrad.addColorStop(0, palette.bgStart);
   bgGrad.addColorStop(1, palette.bgEnd);
@@ -373,42 +373,45 @@ function renderBuilderIDCard() {
   ctx.roundRect(30, 30, W - 60, H - 60, 40);
   ctx.stroke();
 
-  // 2. Header Branding
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-  ctx.beginPath();
-  ctx.roundRect(60, 48, 230, 38, 10);
-  ctx.fill();
-
+  // 2. Clean Header - Event Date Tagline
   ctx.fillStyle = palette.primary;
-  ctx.font = '900 18px "JetBrains Mono", monospace';
-  ctx.textAlign = 'left';
-  ctx.fillText('2:47 PM STUDIO', 78, 73);
-
-  ctx.fillStyle = palette.primary;
-  ctx.font = '700 18px "JetBrains Mono", monospace';
-  ctx.textAlign = 'right';
-  ctx.fillText('GOA, INDIA · 28 – 31 OCT 2026', W - 70, 73);
-
-  // Header Banner Text
-  ctx.fillStyle = palette.primary;
-  ctx.font = '900 52px "Space Grotesk", sans-serif';
+  ctx.font = '700 20px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('HACKER HOUSE GOA 2026', W / 2, 155);
+  ctx.fillText('GOA, INDIA  ·  28 – 31 OCT 2026', W / 2, 75);
+
+  // Main Header Title: HACKER HOUSE + Pink Devanagari "गोवा" Badge
+  ctx.fillStyle = palette.primary;
+  ctx.font = '900 58px "Playfair Display", Georgia, serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('HACKER HOUSE', W / 2 - 50, 148);
+
+  // Pink "गोवा" Badge beside HACKER HOUSE
+  ctx.fillStyle = '#FF007A';
+  ctx.beginPath();
+  ctx.roundRect(W / 2 + 200, 102, 110, 56, 14);
+  ctx.fill();
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '900 32px Outfit, sans-serif';
+  ctx.fillText('गोवा', W / 2 + 255, 142);
 
   // Divider Line
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+  ctx.strokeStyle = 'rgba(250, 204, 21, 0.3)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(80, 185);
-  ctx.lineTo(W - 80, 185);
+  ctx.moveTo(80, 175);
+  ctx.lineTo(W - 80, 175);
   ctx.stroke();
 
   // 3. Photo Frame Area
-  const photoX = W / 2 - 240;
-  const photoY = 215;
-  const photoW = 480;
-  const photoH = 420;
-  const photoRadius = 26;
+  const photoX = W / 2 - 250;
+  const photoY = 205;
+  const photoW = 500;
+  const photoH = 450;
+  const photoRadius = 28;
 
   ctx.save();
   ctx.beginPath();
@@ -440,17 +443,17 @@ function renderBuilderIDCard() {
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
-  // 4. Builder Info
+  // 4. Builder Information Section
   // Full Name
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 48px Outfit, sans-serif';
+  ctx.font = '900 50px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 700);
+  ctx.fillText(name.toUpperCase(), W / 2, 725);
 
   // X Handle Chip
   ctx.fillStyle = palette.handleBg;
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 170, 722, 340, 44, 22);
+  ctx.roundRect(W / 2 - 170, 748, 340, 44, 22);
   ctx.fill();
   ctx.strokeStyle = palette.handleBorder;
   ctx.lineWidth = 2;
@@ -458,60 +461,46 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 22px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 752);
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 778);
 
   // Role Tag
   ctx.fillStyle = palette.primary;
-  ctx.font = '700 24px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 805);
+  ctx.font = '700 25px Outfit, sans-serif';
+  ctx.fillText(`⚡ ${role}`, W / 2, 832);
 
   // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(140, 835, W - 280, 70, 18);
+  ctx.roundRect(140, 862, W - 280, 72, 18);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
   ctx.lineWidth = 3;
   ctx.stroke();
 
   ctx.fillStyle = palette.primary;
-  ctx.font = '800 30px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 881);
-
-  // Official Tagline Banner
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-  ctx.beginPath();
-  ctx.roundRect(180, 922, W - 360, 36, 12);
-  ctx.fill();
-
-  ctx.fillStyle = palette.primary;
-  ctx.font = '700 17px "JetBrains Mono", monospace';
-  ctx.fillText('LESS NOISE. MORE SIGNAL.', W / 2, 945);
+  ctx.font = '800 32px Outfit, sans-serif';
+  ctx.fillText(title, W / 2, 910);
 
   // 5. Dual Linear Barcode & Instant Scannable QR Code Section
   const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
   const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle.toLowerCase()}`;
-  const barcodeY = 980;
+  const barcodeY = 965;
 
   // High-Contrast Linear Barcode
-  drawLinearBarcode(ctx, W / 2, barcodeY, W - 360, 45, cleanHandle);
+  drawLinearBarcode(ctx, W / 2, barcodeY, W - 360, 50, cleanHandle);
 
   // 100% Instant Scannable QR Code
-  const qrY = barcodeY + 65;
-  drawScannableQRCode(ctx, W / 2, qrY, 135, scanTargetURL, () => renderCanvas());
+  const qrY = barcodeY + 72;
+  drawScannableQRCode(ctx, W / 2, qrY, 145, scanTargetURL, () => renderCanvas());
 
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = palette.primary;
-  ctx.font = '700 20px "JetBrains Mono", monospace';
-  ctx.fillText(scannedLabel, W / 2, qrY + 168);
-
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-  ctx.font = '600 18px "JetBrains Mono", monospace';
-  ctx.fillText('VERIFIED BUILDER PASS  ·  2:47 PM STUDIO', W / 2, qrY + 198);
+  ctx.font = '700 22px "JetBrains Mono", monospace';
+  ctx.fillText(scannedLabel, W / 2, qrY + 180);
 
   ctx.fillStyle = palette.accentText;
-  ctx.font = '900 24px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 232);
+  ctx.font = '900 26px Outfit, sans-serif';
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 225);
 
   ctx.restore();
 }
