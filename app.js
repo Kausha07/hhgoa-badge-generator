@@ -1,6 +1,6 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
-// Perfected Compact Aspect Ratio & Zero-Gap High-Contrast Layout
+// Mandatory Input Validation & Clean Instant Clipboard Engine
 // =============================================================================
 
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
@@ -100,7 +100,7 @@ let startX, startY;
 // Initialize App
 window.addEventListener('DOMContentLoaded', () => {
   canvas.width = 1200;
-  canvas.height = 1350; // Compact proportional badge height
+  canvas.height = 1350;
   createDefaultPlaceholderImage();
   setupCanvasInteractions();
 });
@@ -212,14 +212,38 @@ function handleImageUpload(e) {
   reader.readAsDataURL(file);
 }
 
-function requirePhotoUpload() {
+// Validation: Require Photo, Full Name, Handle, Stack, and Builder Title
+function requireAllFields() {
+  const name = document.getElementById('input-name').value.trim();
+  const handle = document.getElementById('input-handle').value.trim();
+  const role = document.getElementById('input-role').value.trim();
+  const title = document.getElementById('input-title').value.trim();
+
   if (!userHasUploadedPhoto) {
-    showToast('⚠️ Please upload your photo first to generate your badge!');
+    showToast('⚠️ Photo Upload Required!');
     const dropzone = document.getElementById('dropzone');
     dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    dropzone.classList.add('drag-over');
-    setTimeout(() => dropzone.classList.remove('drag-over'), 2000);
     document.getElementById('file-input').click();
+    return false;
+  }
+  if (!name) {
+    showToast('⚠️ Please enter your Full Name!');
+    document.getElementById('input-name').focus();
+    return false;
+  }
+  if (!handle) {
+    showToast('⚠️ Please enter your X (Twitter) Handle!');
+    document.getElementById('input-handle').focus();
+    return false;
+  }
+  if (!role) {
+    showToast('⚠️ Please enter your Stack / Primary Skill!');
+    document.getElementById('input-role').focus();
+    return false;
+  }
+  if (!title) {
+    showToast('⚠️ Please enter your Builder Title!');
+    document.getElementById('input-title').focus();
     return false;
   }
   return true;
@@ -233,7 +257,6 @@ function renderCanvas() {
 }
 
 // Builder ID Card / Event Badge (1200 x 1350)
-// Zero-Gap Perfect Proportional Padding & High-Contrast Scanners
 function renderBuilderIDCard() {
   const W = 1200;
   const H = 1350;
@@ -263,47 +286,38 @@ function renderBuilderIDCard() {
   ctx.roundRect(25, 25, W - 50, H - 50, 40);
   ctx.stroke();
 
-  // 2. Exact Website 3-Line Header Logo (HACKER [गोवा] HOUSE)
-  // Top Line: BUILDER PASS · GOA 2026 (Hot Pink)
+  // 2. Header Logo (HACKER [गोवा] HOUSE)
   ctx.fillStyle = '#FF007A';
   ctx.font = '800 22px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillText('BUILDER PASS   ·   GOA 2026', W / 2, 60);
 
-  // Center Line: HACKER (Gold Serif) + [गोवा] (Hot Pink Devanagari) + HOUSE (Gold Serif)
   ctx.fillStyle = palette.primary;
   ctx.font = '900 80px "Playfair Display", Georgia, serif';
 
-  // HACKER on Left
   ctx.textAlign = 'right';
   ctx.fillText('HACKER', W / 2 - 45, 150);
 
-  // HOUSE on Right
   ctx.textAlign = 'left';
   ctx.fillText('HOUSE', W / 2 + 45, 150);
 
-  // Hot Pink Devanagari [गोवा] in Center with Yellow Outline
   ctx.save();
   ctx.textAlign = 'center';
   ctx.font = '900 52px Outfit, sans-serif';
 
-  // Yellow Glow Outline
   ctx.strokeStyle = '#FACC15';
   ctx.lineWidth = 6;
   ctx.strokeText('गोवा', W / 2, 146);
 
-  // Hot Pink Text Fill
   ctx.fillStyle = '#FF007A';
   ctx.fillText('गोवा', W / 2, 146);
   ctx.restore();
 
-  // Bottom Line: GOA, INDIA · 28 – 31 OCT 2026 (White Monospace)
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '800 20px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillText('GOA, INDIA   ·   28 – 31 OCT 2026', W / 2, 195);
 
-  // Decorative Horizontal Divider
   ctx.strokeStyle = 'rgba(250, 204, 21, 0.4)';
   ctx.lineWidth = 2;
   ctx.beginPath();
@@ -311,7 +325,7 @@ function renderBuilderIDCard() {
   ctx.lineTo(W - 80, 218);
   ctx.stroke();
 
-  // 3. Photo Frame Area (480 x 420)
+  // 3. Photo Frame Area
   const photoX = W / 2 - 240;
   const photoY = 240;
   const photoW = 480;
@@ -341,7 +355,6 @@ function renderBuilderIDCard() {
   ctx.restore();
   ctx.restore();
 
-  // Photo Frame Border
   ctx.lineWidth = 8;
   ctx.strokeStyle = palette.primary;
   ctx.beginPath();
@@ -349,13 +362,11 @@ function renderBuilderIDCard() {
   ctx.stroke();
 
   // 4. Builder Information Section
-  // Full Name
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 52px Outfit, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(name.toUpperCase(), W / 2, 715);
 
-  // X Handle Chip
   ctx.fillStyle = palette.handleBg;
   ctx.beginPath();
   ctx.roundRect(W / 2 - 180, 738, 360, 46, 23);
@@ -368,12 +379,10 @@ function renderBuilderIDCard() {
   ctx.font = '800 24px "JetBrains Mono", monospace';
   ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 770);
 
-  // Role Tag
   ctx.fillStyle = palette.primary;
   ctx.font = '800 26px Outfit, sans-serif';
   ctx.fillText(`⚡ ${role}`, W / 2, 825);
 
-  // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
   ctx.roundRect(120, 855, W - 240, 72, 18);
@@ -386,25 +395,21 @@ function renderBuilderIDCard() {
   ctx.font = '900 34px Outfit, sans-serif';
   ctx.fillText(title, W / 2, 902);
 
-  // 5. Dual Linear Barcode & Instant Scannable QR Code Section (Nested & Perfectly Spaced)
+  // 5. Dual Linear Barcode & Instant Scannable QR Code Section
   const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
   const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle.toLowerCase()}`;
   const barcodeY = 952;
 
-  // High-Contrast Linear Barcode (Height 55px)
   drawLinearBarcode(ctx, W / 2, barcodeY, W - 320, 55, cleanHandle);
 
-  // 100% Instant Scannable QR Code (Size 145px)
   const qrY = barcodeY + 75;
   drawScannableQRCode(ctx, W / 2, qrY, 145, scanTargetURL, () => renderCanvas());
 
-  // Pass ID Label
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = palette.primary;
   ctx.font = '800 22px "JetBrains Mono", monospace';
   ctx.fillText(scannedLabel, W / 2, qrY + 182);
 
-  // Footer Tagline
   ctx.fillStyle = palette.accentText;
   ctx.font = '900 26px Outfit, sans-serif';
   ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 224);
@@ -445,11 +450,10 @@ function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.restore();
 }
 
-// Real 100% Scannable QR Code Canvas Engine (with instant fallback box)
+// Real 100% Scannable QR Code Canvas Engine
 function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
   ctx.save();
 
-  // White High-Contrast Quiet Zone Box (Always drawn instantly on frame 1!)
   ctx.fillStyle = '#FFFFFF';
   ctx.beginPath();
   ctx.roundRect(centerX - size / 2 - 10, y - 10, size + 20, size + 20, 14);
@@ -543,9 +547,9 @@ function toggleAccordion(id) {
   icon.innerText = isHidden ? '▼' : '▲';
 }
 
-// Download, Copy & Share Functions (Strict Photo Requirement Enforcement)
+// Download, Copy & Share Functions (Strict Validation & Clean Clipboard Copy)
 function downloadGraphic() {
-  if (!requirePhotoUpload()) return;
+  if (!requireAllFields()) return;
 
   const link = document.createElement('a');
   link.download = 'HH_Goa_2026_Builder_Pass.png';
@@ -557,7 +561,7 @@ function downloadGraphic() {
 }
 
 function shareToX() {
-  if (!requirePhotoUpload()) return;
+  if (!requireAllFields()) return;
 
   const text = encodeURIComponent(
     `Just built my official HH Goa 2026 Builder Pass! 🚀🌴\n\nReady to hack in Goa. Get yours now! #FrameInGoa @HackerHouseGoa`
@@ -570,15 +574,30 @@ function shareToX() {
 }
 
 async function copyImageToClipboard() {
-  if (!requirePhotoUpload()) return;
+  if (!requireAllFields()) return;
+
+  const copyBtn = document.getElementById('btn-copy');
+  const originalText = copyBtn ? copyBtn.innerHTML : '📋 Copy Image';
 
   try {
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png', 1.0));
     if (blob) {
       const item = new ClipboardItem({ 'image/png': blob });
       await navigator.clipboard.write([item]);
-      triggerConfetti();
-      showToast('Image copied to clipboard! Ready to paste on X 📋');
+      
+      // Inline button feedback ONLY (Zero screen split, zero popup overlays!)
+      if (copyBtn) {
+        copyBtn.innerHTML = '✓ Copied to Clipboard!';
+        copyBtn.style.background = 'rgba(0, 255, 135, 0.25)';
+        copyBtn.style.borderColor = '#00FF87';
+        copyBtn.style.color = '#00FF87';
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+          copyBtn.style.background = '';
+          copyBtn.style.borderColor = '';
+          copyBtn.style.color = '';
+        }, 2500);
+      }
     }
   } catch (err) {
     downloadGraphic();
