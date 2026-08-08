@@ -1,6 +1,6 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
-// Ultra-Clean Proportional Aspect Ratio & High-Contrast Linear Barcode
+// Ultra-Clean, Pixel-Perfect Layout Engine (Zero Mess, Maximum Clarity)
 // =============================================================================
 
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
@@ -16,7 +16,7 @@ const transformState = {
   flipped: false
 };
 
-// Canvas & Context (Ultra-Clean Proportional Badge: 1200 x 1180)
+// Canvas & Context (Pixel-Perfect Event Badge: 1200 x 1260)
 const canvas = document.getElementById('badge-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -98,7 +98,7 @@ let startX, startY;
 // Initialize App
 window.addEventListener('DOMContentLoaded', () => {
   canvas.width = 1200;
-  canvas.height = 1180;
+  canvas.height = 1260;
   createDefaultPlaceholderImage();
   setupCanvasInteractions();
 });
@@ -210,7 +210,7 @@ function handleImageUpload(e) {
   reader.readAsDataURL(file);
 }
 
-// Validation: Require Photo, Full Name, Handle, Stack, and Builder Title
+// Validation: Require Photo, Full Name, Stack, and Builder Title
 function requireAllFields() {
   const name = document.getElementById('input-name').value.trim();
   const role = document.getElementById('input-role').value.trim();
@@ -248,15 +248,16 @@ function renderCanvas() {
   renderBuilderIDCard();
 }
 
-// Builder ID Card / Event Badge (1200 x 1180)
-// Ultra-Clean, Zero White Box, Perfectly Proportioned Badge
+// Builder ID Card / Event Badge (1200 x 1260)
+// Ultra-Clean, Pixel-Perfect Layout (Zero Mess)
 function renderBuilderIDCard() {
   const W = 1200;
-  const H = 1180;
+  const H = 1260;
   const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
   const name = document.getElementById('input-name').value || 'SATOSHI NAKAMOTO';
-  const handle = document.getElementById('input-handle').value || 'kaushal_dev';
+  const rawHandle = document.getElementById('input-handle').value.trim();
+  const handle = rawHandle ? `@${rawHandle.replace('@', '')}` : '';
   const role = document.getElementById('input-role').value || 'Full-Stack & AI Systems';
   const title = document.getElementById('input-title').value || 'Kernel Alchemist ⚡';
 
@@ -280,50 +281,57 @@ function renderBuilderIDCard() {
   ctx.stroke();
 
   // 2. Header Logo (HACKER [गोवा] HOUSE)
-  ctx.fillStyle = '#FF007A';
+  ctx.fillStyle = palette.primary;
   ctx.font = '800 22px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('BUILDER PASS   ·   GOA 2026', W / 2, 60);
+  ctx.fillText('BUILDER PASS   ·   GOA, INDIA', W / 2, 65);
 
-  ctx.fillStyle = palette.primary;
-  ctx.font = '900 80px "Playfair Display", Georgia, serif';
+  // HACKER [गोवा] HOUSE
+  ctx.font = '900 82px "Playfair Display", Georgia, serif';
 
+  // HACKER on Left
   ctx.textAlign = 'right';
-  ctx.fillText('HACKER', W / 2 - 45, 150);
+  ctx.fillStyle = palette.primary;
+  ctx.fillText('HACKER', W / 2 - 55, 158);
 
+  // HOUSE on Right
   ctx.textAlign = 'left';
-  ctx.fillText('HOUSE', W / 2 + 45, 150);
+  ctx.fillStyle = palette.primary;
+  ctx.fillText('HOUSE', W / 2 + 55, 158);
 
+  // Hot Pink Devanagari [गोवा] in Center with Yellow Glow Outline
   ctx.save();
   ctx.textAlign = 'center';
   ctx.font = '900 52px Outfit, sans-serif';
 
   ctx.strokeStyle = '#FACC15';
   ctx.lineWidth = 6;
-  ctx.strokeText('गोवा', W / 2, 146);
+  ctx.strokeText('गोवा', W / 2, 154);
 
   ctx.fillStyle = '#FF007A';
-  ctx.fillText('गोवा', W / 2, 146);
+  ctx.fillText('गोवा', W / 2, 154);
   ctx.restore();
 
-  ctx.fillStyle = '#FFFFFF';
+  // Subtitle Date
+  ctx.fillStyle = palette.accentText;
   ctx.font = '800 20px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('GOA, INDIA   ·   28 – 31 OCT 2026', W / 2, 195);
+  ctx.fillText('28  –  31 OCTOBER 2026', W / 2, 205);
 
+  // Divider Line
   ctx.strokeStyle = 'rgba(250, 204, 21, 0.4)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(80, 218);
-  ctx.lineTo(W - 80, 218);
+  ctx.moveTo(80, 228);
+  ctx.lineTo(W - 80, 228);
   ctx.stroke();
 
-  // 3. Photo Frame Area (480 x 420)
-  const photoX = W / 2 - 240;
-  const photoY = 240;
-  const photoW = 480;
-  const photoH = 420;
-  const photoRadius = 28;
+  // 3. Photo Frame Area (460 x 440)
+  const photoX = W / 2 - 230;
+  const photoY = 250;
+  const photoW = 460;
+  const photoH = 440;
+  const photoRadius = 30;
 
   ctx.save();
   ctx.beginPath();
@@ -355,30 +363,41 @@ function renderBuilderIDCard() {
   ctx.stroke();
 
   // 4. Builder Information Section
+  // Full Name
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 52px Outfit, sans-serif';
+  ctx.font = '900 54px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 715);
+  ctx.fillText(name.toUpperCase(), W / 2, 742);
 
-  ctx.fillStyle = palette.handleBg;
-  ctx.beginPath();
-  ctx.roundRect(W / 2 - 180, 738, 360, 46, 23);
-  ctx.fill();
-  ctx.strokeStyle = palette.handleBorder;
-  ctx.lineWidth = 2;
-  ctx.stroke();
+  // X Handle Chip (Only rendered if handle exists)
+  let nextY = 770;
+  if (handle) {
+    ctx.fillStyle = palette.handleBg;
+    ctx.beginPath();
+    ctx.roundRect(W / 2 - 180, nextY, 360, 46, 23);
+    ctx.fill();
+    ctx.strokeStyle = palette.handleBorder;
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 24px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 770);
+    ctx.fillStyle = palette.primary;
+    ctx.font = '800 24px "JetBrains Mono", monospace';
+    ctx.fillText(handle, W / 2, nextY + 32);
+    nextY += 62;
+  } else {
+    nextY += 15;
+  }
 
-  ctx.fillStyle = palette.primary;
+  // Role Tag
+  ctx.fillStyle = palette.accentText;
   ctx.font = '800 26px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 825);
+  ctx.fillText(`⚡ ${role}`, W / 2, nextY + 20);
+  nextY += 45;
 
+  // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(120, 855, W - 240, 72, 18);
+  ctx.roundRect(120, nextY, W - 240, 72, 18);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
   ctx.lineWidth = 3;
@@ -386,22 +405,24 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = palette.primary;
   ctx.font = '900 34px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 902);
+  ctx.fillText(title, W / 2, nextY + 47);
+  nextY += 92;
 
   // 5. Official High-Contrast Linear Barcode Scanner Section
-  const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
-  const barcodeY = 955;
-
-  drawLinearBarcode(ctx, W / 2, barcodeY, W - 320, 55, cleanHandle);
+  const cleanHandle = handle ? handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() : 'BUILDER';
+  
+  drawLinearBarcode(ctx, W / 2, nextY, W - 320, 58, cleanHandle);
+  nextY += 88;
 
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = palette.primary;
   ctx.font = '800 22px "JetBrains Mono", monospace';
-  ctx.fillText(scannedLabel, W / 2, barcodeY + 88);
+  ctx.fillText(scannedLabel, W / 2, nextY);
+  nextY += 40;
 
   ctx.fillStyle = palette.accentText;
   ctx.font = '900 26px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, barcodeY + 130);
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, nextY);
 
   ctx.restore();
 }
@@ -416,7 +437,7 @@ function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.fill();
 
   ctx.fillStyle = '#000000';
-  let safeText = (handleText || 'KAUSHAL').toUpperCase().replace(/[^0-9A-Z-. ]/g, '');
+  let safeText = (handleText || 'BUILDER').toUpperCase().replace(/[^0-9A-Z-. ]/g, '');
   if (safeText.length === 0) safeText = 'BUILDER';
   const code = `*HHG-${safeText.substring(0, 10)}*`;
   
