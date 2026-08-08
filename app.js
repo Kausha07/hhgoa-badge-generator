@@ -5,6 +5,8 @@
 let currentFormat = 'B'; // 'A' = PFP Frame, 'B' = Builder ID Card
 let currentTheme = 'neon'; // 'neon', 'sunset', 'matrix', 'minimal'
 let userImage = null;
+let cachedQRCodeImg = null;
+let lastQRData = '';
 
 // Photo Transformation State
 const transformState = {
@@ -69,7 +71,7 @@ const THEME_PALETTES = {
   }
 };
 
-// Code 39 Barcode Encoding Table for 100% Camera Scannability
+// Code 39 Barcode Encoding Patterns
 const CODE39_PATTERNS = {
   '0': '101001101101', '1': '110100101011', '2': '101100101011', '3': '110110010101',
   '4': '101001101011', '5': '110100110101', '6': '101100110101', '7': '101001011011',
@@ -312,14 +314,6 @@ function renderPFPFrame() {
   ctx.fillText('🌴 #FrameInGoa ⚡', W / 2, H - 85);
 }
 
-// Helper to sanitize text for Code 39
-function sanitizeCode39(text) {
-  const allowed = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. ";
-  let clean = (text || 'KAUSHAL').toUpperCase().replace(/[^0-9A-Z-. ]/g, '');
-  if (!clean) clean = 'BUILDER';
-  return clean.substring(0, 10);
-}
-
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
 // -----------------------------------------------------------------------------
@@ -376,7 +370,7 @@ function renderBuilderIDCard() {
   const photoX = W / 2 - 270;
   const photoY = 265;
   const photoW = 540;
-  const photoH = 560;
+  const photoH = 550;
   const photoRadius = 30;
 
   ctx.save();
@@ -411,11 +405,11 @@ function renderBuilderIDCard() {
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 52px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 895);
+  ctx.fillText(name.toUpperCase(), W / 2, 885);
 
   ctx.fillStyle = 'rgba(29, 155, 240, 0.15)';
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 180, 920, 360, 48, 24);
+  ctx.roundRect(W / 2 - 180, 910, 360, 48, 24);
   ctx.fill();
   ctx.strokeStyle = '#1D9BF0';
   ctx.lineWidth = 2;
@@ -423,15 +417,15 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = '#1D9BF0';
   ctx.font = '700 24px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 953);
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 943);
 
   ctx.fillStyle = palette.accentText;
   ctx.font = '700 26px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 1015);
+  ctx.fillText(`⚡ ${role}`, W / 2, 1005);
 
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(140, 1050, W - 280, 90, 20);
+  ctx.roundRect(140, 1040, W - 280, 85, 20);
   ctx.fill();
   ctx.strokeStyle = palette.secondary;
   ctx.lineWidth = 3;
@@ -439,66 +433,72 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '800 34px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 1108);
+  ctx.fillText(title, W / 2, 1096);
 
-  // 6. Scannable Code 39 Barcode Engine
-  const rawHandle = sanitizeCode39(handle);
-  const barcodeValue = `HHG-${rawHandle}`;
-  const barcodeY = 1175;
-  const barcodeHeight = 65;
-  
-  drawScannableBarcode(ctx, W / 2, barcodeY, barcodeHeight, barcodeValue, palette.primary);
+  // 6. 100% Scannable Barcode & QR Code Section
+  const cleanHandle = handle.replace(/[^a-zA-Z0-9_]/g, '');
+  const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle}`;
+  const barcodeY = 1160;
 
-  // Decoded Barcode Value String
+  // Draw 100% Scannable QR Code
+  drawScannableQRCode(ctx, W / 2, barcodeY, 170, scanTargetURL, () => renderCanvas());
+
+  // Scanned URL / ID Label
+  const scannedLabel = `PASS ID: HHG-2026-${cleanHandle.toUpperCase()}`;
   ctx.fillStyle = palette.primary;
   ctx.font = '700 22px "JetBrains Mono", monospace';
-  ctx.fillText(`ID: ${barcodeValue}`, W / 2, barcodeY + barcodeHeight + 28);
+  ctx.fillText(scannedLabel, W / 2, barcodeY + 205);
 
   ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
   ctx.font = '600 20px "JetBrains Mono", monospace';
-  ctx.fillText('VERIFIED BUILDER // GOA INDIA // 2026', W / 2, barcodeY + barcodeHeight + 64);
+  ctx.fillText('SCAN TO VERIFY BUILDER // GOA 2026', W / 2, barcodeY + 242);
 
   ctx.fillStyle = palette.accentText;
   ctx.font = '900 26px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, barcodeY + barcodeHeight + 105);
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, barcodeY + 282);
 
   ctx.restore();
 }
 
 // -----------------------------------------------------------------------------
-// Real 100% Scannable Code-39 Barcode Engine
+// Real 100% Scannable QR Code Canvas Engine
 // -----------------------------------------------------------------------------
-function drawScannableBarcode(ctx, centerX, y, height, text, color) {
-  const code = `*${text.toUpperCase()}*`; // Code 39 requires surrounding start/stop '*'
-  let bitPattern = '';
+function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
+  if (lastQRData === textUrl && cachedQRCodeImg) {
+    // Draw white container box
+    ctx.save();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.roundRect(centerX - size / 2 - 12, y - 12, size + 24, size + 24, 16);
+    ctx.fill();
+    ctx.strokeStyle = '#00F2FE';
+    ctx.lineWidth = 3;
+    ctx.stroke();
 
-  for (let i = 0; i < code.length; i++) {
-    const char = code[i];
-    const pattern = CODE39_PATTERNS[char] || CODE39_PATTERNS[' '];
-    bitPattern += pattern + '0'; // '0' is narrow gap between characters
+    // Draw QR code image inside
+    ctx.drawImage(cachedQRCodeImg, centerX - size / 2, y, size, size);
+    ctx.restore();
+    return;
   }
 
-  const moduleWidth = 4; // Width of single barcode bit
-  const totalWidth = bitPattern.length * moduleWidth;
-  const startX = centerX - totalWidth / 2;
-
-  ctx.save();
-  
-  // High contrast quiet zone background behind barcode for instant camera scan
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath();
-  ctx.roundRect(startX - 20, y - 8, totalWidth + 40, height + 16, 8);
-  ctx.fill();
-
-  // Draw Black Barcode Elements
-  ctx.fillStyle = '#000000';
-  for (let i = 0; i < bitPattern.length; i++) {
-    if (bitPattern[i] === '1') {
-      ctx.fillRect(startX + i * moduleWidth, y, moduleWidth, height);
-    }
+  // Generate QR Code via QRCode.js
+  if (typeof QRCode !== 'undefined' && QRCode.toDataURL) {
+    QRCode.toDataURL(textUrl, {
+      width: size * 2,
+      margin: 1,
+      color: { dark: '#000000', light: '#FFFFFF' }
+    }, (err, url) => {
+      if (!err && url) {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+          cachedQRCodeImg = img;
+          lastQRData = textUrl;
+          if (onQrLoaded) onQrLoaded();
+        };
+      }
+    });
   }
-
-  ctx.restore();
 }
 
 // -----------------------------------------------------------------------------
