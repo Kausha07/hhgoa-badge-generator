@@ -1,13 +1,11 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
-// 100% Google Lens Instant Scannable Dual Scanner & Generous Vertical Spacing
+// Clean Full-Width 1D Code 39 Barcode Scanner (Zero Side Box Clutter)
 // =============================================================================
 
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
 let userImage = null;
 let userHasUploadedPhoto = false; // Strict photo upload requirement flag
-let cachedQRCodeImg = null;
-let lastQRData = '';
 
 // Photo Transformation State
 const transformState = {
@@ -18,7 +16,7 @@ const transformState = {
   flipped: false
 };
 
-// Canvas & Context (High-Res 1200 x 1420 with Generous Vertical Spacing)
+// Canvas & Context (High-Res 1200 x 1400 with Generous Vertical Spacing)
 const canvas = document.getElementById('badge-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -100,7 +98,7 @@ let startX, startY;
 // Initialize App
 window.addEventListener('DOMContentLoaded', () => {
   canvas.width = 1200;
-  canvas.height = 1420;
+  canvas.height = 1400;
   createDefaultPlaceholderImage();
   setupCanvasInteractions();
 });
@@ -250,10 +248,10 @@ function renderCanvas() {
   renderBuilderIDCard();
 }
 
-// Builder ID Card / Event Badge (1200 x 1420)
+// Builder ID Card / Event Badge (1200 x 1400)
 function renderBuilderIDCard() {
   const W = 1200;
-  const H = 1420;
+  const H = 1400;
   const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
   const name = document.getElementById('input-name').value || 'SATOSHI NAKAMOTO';
@@ -405,15 +403,15 @@ function renderBuilderIDCard() {
   ctx.fillStyle = '#FACC15';
   ctx.font = '900 46px Outfit, sans-serif';
   ctx.fillText(title, W / 2, nextY + 58);
-  nextY += 118;
+  nextY += 114;
 
-  // 5. Dual Scannable Matrix (Google Lens 100ms Instant Scan 2D QR + High-Contrast 1D Barcode)
+  // 5. Clean Full-Width 1D Code 39 Barcode Container Box
   const cleanHandle = handle ? handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() : 'BUILDER';
   const passIdText = `HHG-2026-${cleanHandle}`;
 
-  // Draw Dual Scanner Matrix Box (Ends at nextY + 160)
-  drawDualScannerMatrix(ctx, W / 2, nextY, W - 180, 160, passIdText, () => renderCanvas());
-  nextY += 215; // Generous 55px vertical gap below scanner box!
+  // Draw Full-Width Barcode Box (Height 90px, Ends at nextY + 90)
+  drawScannableCode39BarcodeBox(ctx, W / 2, nextY, W - 240, 90, passIdText);
+  nextY += 150; // Generous 60px vertical gap below barcode box!
 
   // Line 2: SCAN CALL-TO-ACTION (Generously Spaced)
   ctx.fillStyle = '#FACC15';
@@ -429,63 +427,16 @@ function renderBuilderIDCard() {
   ctx.restore();
 }
 
-// Dual Scanner Matrix (High-Contrast 1D Barcode + Google Lens Instant 2D QR Code)
-function drawDualScannerMatrix(ctx, centerX, y, availableWidth, height, passIdText, onQrLoaded) {
+// Clean Full-Width Code 39 Barcode Box Generator
+function drawScannableCode39BarcodeBox(ctx, centerX, y, availableWidth, height, textToEncode) {
   ctx.save();
 
   // White High-Contrast Container Box
   ctx.fillStyle = '#FFFFFF';
   ctx.beginPath();
-  ctx.roundRect(centerX - availableWidth / 2, y, availableWidth, height, 20);
+  ctx.roundRect(centerX - availableWidth / 2, y, availableWidth, height, 18);
   ctx.fill();
 
-  // 1. Draw High-Contrast Code 39 1D Barcode on Left Side (Width 640px)
-  const barcodeWidth = availableWidth - 210;
-  const barcodeHeight = 90;
-  const barcodeX = centerX - availableWidth / 2 + 25;
-  const barcodeY = y + (height - barcodeHeight) / 2;
-
-  drawCode39Bars(ctx, barcodeX, barcodeY, barcodeWidth, barcodeHeight, passIdText);
-
-  // Divider Line inside white box
-  ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(centerX + availableWidth / 2 - 165, y + 15);
-  ctx.lineTo(centerX + availableWidth / 2 - 165, y + height - 15);
-  ctx.stroke();
-
-  // 2. Draw Google Lens 100ms Instant 2D QR Code on Right Side (130x130)
-  const qrSize = 130;
-  const qrX = centerX + availableWidth / 2 - 145;
-  const qrY = y + (height - qrSize) / 2;
-  const textUrl = `https://hhgoa.com/pass/${passIdText.toLowerCase()}`;
-
-  if (lastQRData === textUrl && cachedQRCodeImg) {
-    ctx.drawImage(cachedQRCodeImg, qrX, qrY, qrSize, qrSize);
-  } else if (typeof QRCode !== 'undefined' && QRCode.toDataURL) {
-    QRCode.toDataURL(textUrl, {
-      width: qrSize * 2,
-      margin: 0,
-      color: { dark: '#000000', light: '#FFFFFF' }
-    }, (err, url) => {
-      if (!err && url) {
-        const img = new Image();
-        img.src = url;
-        img.onload = () => {
-          cachedQRCodeImg = img;
-          lastQRData = textUrl;
-          if (onQrLoaded) onQrLoaded();
-        };
-      }
-    });
-  }
-
-  ctx.restore();
-}
-
-// 100% Code 39 Barcode Bar Renderer
-function drawCode39Bars(ctx, startX, y, width, height, textToEncode) {
   let raw = textToEncode.toUpperCase().replace(/[^0-9A-Z-. ]/g, '');
   if (!raw) raw = 'HHG-2026-BUILDER';
   const fullCode = `*${raw}*`;
@@ -511,7 +462,15 @@ function drawCode39Bars(ctx, startX, y, width, height, textToEncode) {
     }
   }
 
-  const unitWidth = width / totalUnits;
+  // Calculate barcode dimensions with 40px quiet-zone padding on sides
+  const paddingX = 40;
+  const paddingY = 12;
+  const barcodeWidth = availableWidth - paddingX * 2;
+  const barcodeHeight = height - paddingY * 2;
+  const unitWidth = barcodeWidth / totalUnits;
+  const startX = centerX - barcodeWidth / 2;
+  const startY = y + paddingY;
+
   ctx.fillStyle = '#000000';
   let curX = startX;
 
@@ -520,10 +479,12 @@ function drawCode39Bars(ctx, startX, y, width, height, textToEncode) {
     const elemPxWidth = elem.widthUnits * unitWidth;
 
     if (elem.isBar) {
-      ctx.fillRect(curX, y, elemPxWidth + 0.3, height);
+      ctx.fillRect(curX, startY, elemPxWidth + 0.3, barcodeHeight);
     }
     curX += elemPxWidth;
   }
+
+  ctx.restore();
 }
 
 // Interactive Drag & Touch Controls on Canvas
