@@ -701,44 +701,61 @@ canvas:active {
 
   .header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     gap: 12px;
-    padding: 16px 20px;
+    padding: 20px 16px;
     border-radius: 20px;
   }
 
   .brand {
-    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    width: 100%;
   }
 
   .logo-icon {
-    font-size: 1.8rem;
-    padding: 8px 12px;
-    border-radius: 14px;
+    display: none;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
   }
 
   .top-tagline {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 1.5px;
+    text-align: center;
   }
 
   .brand-text h1 {
-    font-size: 1.5rem;
-    gap: 5px;
+    font-size: 1.55rem;
+    gap: 6px;
+    justify-content: center;
+    text-align: center;
   }
 
   .hindi-badge {
     font-size: 0.95rem;
-    padding: 0 6px;
+    padding: 1px 7px;
   }
 
   .subtitle {
     font-size: 0.72rem;
     letter-spacing: 1px;
+    text-align: center;
   }
 
   .header-tag {
-    align-self: flex-start;
+    align-self: center;
+    margin-top: 4px;
   }
 
   .main-content {
