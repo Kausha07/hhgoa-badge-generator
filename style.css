@@ -390,6 +390,7 @@ input[type="text"]:focus {
   border-radius: 50%;
 }
 
+.theme-official { background: linear-gradient(135deg, #00FF87, #00F2FE); }
 .theme-neon { background: linear-gradient(135deg, #00F2FE, #FF0844); }
 .theme-sunset { background: linear-gradient(135deg, #FFB800, #FF0844); }
 .theme-matrix { background: linear-gradient(135deg, #00FF87, #00F2FE); }

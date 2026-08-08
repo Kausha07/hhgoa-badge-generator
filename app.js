@@ -1,9 +1,10 @@
 // =============================================================================
-// HH Goa 2026 - Frame & Builder ID Card Generator Engine
+// HH Goa 2026 - Official Brand Frame & Builder ID Pass Generator
+// Official Event: Hacker House Goa 2026 (Oct 28-31, 2026) by 247pmstudio
 // =============================================================================
 
 let currentFormat = 'B'; // 'A' = PFP Frame, 'B' = Builder ID Card
-let currentTheme = 'neon'; // 'neon', 'sunset', 'matrix', 'minimal'
+let currentTheme = 'official'; // 'official', 'neon', 'sunset', 'matrix'
 let userImage = null;
 let cachedQRCodeImg = null;
 let lastQRData = '';
@@ -21,7 +22,7 @@ const transformState = {
 const canvas = document.getElementById('badge-canvas');
 const ctx = canvas.getContext('2d');
 
-// Builder Titles Pool for Randomizer
+// Builder Titles Pool
 const BUILDER_TITLES = [
   "Kernel Alchemist 🧪",
   "GPU Whisperer ⚡",
@@ -35,8 +36,16 @@ const BUILDER_TITLES = [
   "Distributed Systems Monk 🧘"
 ];
 
-// Color Theme Palettes
+// Color Theme Palettes matching official website
 const THEME_PALETTES = {
+  official: {
+    primary: '#00FF87',
+    secondary: '#00F2FE',
+    bgStart: '#090D16',
+    bgEnd: '#020408',
+    badgeBg: '#131B2E',
+    accentText: '#00FF87'
+  },
   neon: {
     primary: '#00F2FE',
     secondary: '#FF0844',
@@ -60,29 +69,7 @@ const THEME_PALETTES = {
     bgEnd: '#010B07',
     badgeBg: '#0B2E1E',
     accentText: '#00FF87'
-  },
-  minimal: {
-    primary: '#FFFFFF',
-    secondary: '#94A3B8',
-    bgStart: '#1E293B',
-    bgEnd: '#0F172A',
-    badgeBg: '#334155',
-    accentText: '#38BDF8'
   }
-};
-
-// Code 39 Barcode Encoding Patterns
-const CODE39_PATTERNS = {
-  '0': '101001101101', '1': '110100101011', '2': '101100101011', '3': '110110010101',
-  '4': '101001101011', '5': '110100110101', '6': '101100110101', '7': '101001011011',
-  '8': '110100101101', '9': '101100101101', 'A': '110101001011', 'B': '101101001011',
-  'C': '110110100101', 'D': '101011001011', 'E': '110101100101', 'F': '101101100101',
-  'G': '101010011011', 'H': '110101001101', 'I': '101101001101', 'J': '101011001101',
-  'K': '110101010011', 'L': '101101010011', 'M': '110110101001', 'N': '101011010011',
-  'O': '110101101001', 'P': '101101101001', 'Q': '101010110011', 'R': '110101011001',
-  'S': '101101011001', 'T': '101011011001', 'U': '110010101011', 'V': '100110101011',
-  'W': '110011010101', 'X': '100101101011', 'Y': '110010110101', 'Z': '100110110101',
-  '-': '100101011011', '.': '110010101101', ' ': '100110101101', '*': '100101101101'
 };
 
 let isDragging = false;
@@ -102,12 +89,12 @@ function createDefaultPlaceholderImage() {
   const pCtx = pCanvas.getContext('2d');
 
   const grad = pCtx.createLinearGradient(0, 0, 600, 600);
-  grad.addColorStop(0, '#1E293B');
-  grad.addColorStop(1, '#0F172A');
+  grad.addColorStop(0, '#131B2E');
+  grad.addColorStop(1, '#090D16');
   pCtx.fillStyle = grad;
   pCtx.fillRect(0, 0, 600, 600);
 
-  pCtx.fillStyle = '#334155';
+  pCtx.fillStyle = '#1E293B';
   pCtx.beginPath();
   pCtx.arc(300, 240, 110, 0, Math.PI * 2);
   pCtx.fill();
@@ -116,8 +103,8 @@ function createDefaultPlaceholderImage() {
   pCtx.arc(300, 520, 200, Math.PI, 0);
   pCtx.fill();
 
-  pCtx.fillStyle = '#94A3B8';
-  pCtx.font = 'bold 28px Outfit, sans-serif';
+  pCtx.fillStyle = '#00FF87';
+  pCtx.font = 'bold 26px Outfit, sans-serif';
   pCtx.textAlign = 'center';
   pCtx.fillText('CLICK TO UPLOAD YOUR PHOTO', 300, 310);
 
@@ -249,7 +236,7 @@ function renderPFPFrame() {
   const palette = THEME_PALETTES[currentTheme];
 
   ctx.save();
-  ctx.fillStyle = '#0F172A';
+  ctx.fillStyle = palette.bgStart;
   ctx.fillRect(0, 0, W, H);
 
   const centerX = W / 2;
@@ -288,9 +275,10 @@ function renderPFPFrame() {
   ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
   ctx.stroke();
 
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  // Top Header Branding Badge
+  ctx.fillStyle = 'rgba(9, 13, 22, 0.9)';
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 210, 45, 420, 65, 30);
+  ctx.roundRect(W / 2 - 230, 45, 460, 65, 30);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
   ctx.lineWidth = 3;
@@ -301,9 +289,10 @@ function renderPFPFrame() {
   ctx.textAlign = 'center';
   ctx.fillText('HACKER HOUSE GOA 2026', W / 2, 88);
 
-  ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+  // Bottom #FrameInGoa Curved Banner
+  ctx.fillStyle = 'rgba(9, 13, 22, 0.92)';
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 260, H - 140, 520, 85, 40);
+  ctx.roundRect(W / 2 - 270, H - 145, 540, 90, 45);
   ctx.fill();
   ctx.strokeStyle = palette.secondary;
   ctx.lineWidth = 4;
@@ -311,11 +300,12 @@ function renderPFPFrame() {
 
   ctx.fillStyle = palette.accentText;
   ctx.font = '900 36px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡', W / 2, H - 85);
+  ctx.fillText('🌴 #FrameInGoa ⚡ 28-31 OCT', W / 2, H - 88);
 }
 
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
+// Official HH Goa Brand Theme Implementation
 // -----------------------------------------------------------------------------
 function renderBuilderIDCard() {
   const W = 1200;
@@ -334,6 +324,7 @@ function renderBuilderIDCard() {
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, W, H);
 
+  // Outer Glowing Border Frame
   ctx.lineWidth = 16;
   const frameGrad = ctx.createLinearGradient(0, 0, W, H);
   frameGrad.addColorStop(0, palette.primary);
@@ -343,7 +334,8 @@ function renderBuilderIDCard() {
   ctx.roundRect(30, 30, W - 60, H - 60, 40);
   ctx.stroke();
 
-  ctx.fillStyle = '#0F172A';
+  // Lanyard Slot
+  ctx.fillStyle = '#090D16';
   ctx.beginPath();
   ctx.roundRect(W / 2 - 70, 55, 140, 32, 16);
   ctx.fill();
@@ -351,14 +343,15 @@ function renderBuilderIDCard() {
   ctx.lineWidth = 3;
   ctx.stroke();
 
+  // Official Event Header
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 52px Outfit, sans-serif';
+  ctx.font = '900 54px Outfit, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText('HH GOA 2026', W / 2, 165);
 
   ctx.fillStyle = palette.primary;
   ctx.font = '700 22px "JetBrains Mono", monospace';
-  ctx.fillText('OFFICIAL BUILDER PASS // FEB 2026', W / 2, 205);
+  ctx.fillText('GOA, INDIA  ·  28 – 31 OCT 2026', W / 2, 205);
 
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
   ctx.lineWidth = 2;
@@ -367,10 +360,11 @@ function renderBuilderIDCard() {
   ctx.lineTo(W - 100, 235);
   ctx.stroke();
 
+  // Photo Frame Area
   const photoX = W / 2 - 270;
   const photoY = 265;
   const photoW = 540;
-  const photoH = 550;
+  const photoH = 540;
   const photoRadius = 30;
 
   ctx.save();
@@ -402,14 +396,16 @@ function renderBuilderIDCard() {
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
+  // Builder Information Section
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 52px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 885);
+  ctx.fillText(name.toUpperCase(), W / 2, 875);
 
+  // X Handle Chip
   ctx.fillStyle = 'rgba(29, 155, 240, 0.15)';
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 180, 910, 360, 48, 24);
+  ctx.roundRect(W / 2 - 180, 900, 360, 48, 24);
   ctx.fill();
   ctx.strokeStyle = '#1D9BF0';
   ctx.lineWidth = 2;
@@ -417,15 +413,17 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = '#1D9BF0';
   ctx.font = '700 24px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 943);
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 933);
 
+  // Role Tag
   ctx.fillStyle = palette.accentText;
   ctx.font = '700 26px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 1005);
+  ctx.fillText(`⚡ ${role}`, W / 2, 995);
 
+  // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(140, 1040, W - 280, 85, 20);
+  ctx.roundRect(140, 1030, W - 280, 85, 20);
   ctx.fill();
   ctx.strokeStyle = palette.secondary;
   ctx.lineWidth = 3;
@@ -433,29 +431,37 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '800 34px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 1096);
+  ctx.fillText(title, W / 2, 1086);
 
-  // 6. 100% Scannable Barcode & QR Code Section
+  // Official Tagline Banner
+  ctx.fillStyle = 'rgba(0, 255, 135, 0.12)';
+  ctx.beginPath();
+  ctx.roundRect(180, 1135, W - 360, 42, 12);
+  ctx.fill();
+
+  ctx.fillStyle = palette.primary;
+  ctx.font = '700 18px "JetBrains Mono", monospace';
+  ctx.fillText('LESS NOISE. MORE SIGNAL.', W / 2, 1162);
+
+  // 100% Scannable QR Code Section
   const cleanHandle = handle.replace(/[^a-zA-Z0-9_]/g, '');
   const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle}`;
-  const barcodeY = 1160;
+  const barcodeY = 1200;
 
-  // Draw 100% Scannable QR Code
-  drawScannableQRCode(ctx, W / 2, barcodeY, 170, scanTargetURL, () => renderCanvas());
+  drawScannableQRCode(ctx, W / 2, barcodeY, 160, scanTargetURL, () => renderCanvas());
 
-  // Scanned URL / ID Label
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle.toUpperCase()}`;
   ctx.fillStyle = palette.primary;
   ctx.font = '700 22px "JetBrains Mono", monospace';
-  ctx.fillText(scannedLabel, W / 2, barcodeY + 205);
+  ctx.fillText(scannedLabel, W / 2, barcodeY + 195);
 
   ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
   ctx.font = '600 20px "JetBrains Mono", monospace';
-  ctx.fillText('SCAN TO VERIFY BUILDER // GOA 2026', W / 2, barcodeY + 242);
+  ctx.fillText('VERIFIED BUILDER  ·  BY 247PM STUDIO', W / 2, barcodeY + 230);
 
   ctx.fillStyle = palette.accentText;
   ctx.font = '900 26px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, barcodeY + 282);
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, barcodeY + 270);
 
   ctx.restore();
 }
@@ -465,23 +471,20 @@ function renderBuilderIDCard() {
 // -----------------------------------------------------------------------------
 function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
   if (lastQRData === textUrl && cachedQRCodeImg) {
-    // Draw white container box
     ctx.save();
     ctx.fillStyle = '#FFFFFF';
     ctx.beginPath();
     ctx.roundRect(centerX - size / 2 - 12, y - 12, size + 24, size + 24, 16);
     ctx.fill();
-    ctx.strokeStyle = '#00F2FE';
+    ctx.strokeStyle = '#00FF87';
     ctx.lineWidth = 3;
     ctx.stroke();
 
-    // Draw QR code image inside
     ctx.drawImage(cachedQRCodeImg, centerX - size / 2, y, size, size);
     ctx.restore();
     return;
   }
 
-  // Generate QR Code via QRCode.js
   if (typeof QRCode !== 'undefined' && QRCode.toDataURL) {
     QRCode.toDataURL(textUrl, {
       width: size * 2,
