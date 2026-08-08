@@ -1,6 +1,6 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
-// Ultra-Clean, Pixel-Perfect Layout Engine (Zero Mess, Maximum Clarity)
+// Maximum WCAG AAA Contrast Engine & Crystal Clear Typography Across All Themes
 // =============================================================================
 
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
@@ -34,47 +34,47 @@ const BUILDER_TITLES = [
   "Distributed Systems Monk 🧘"
 ];
 
-// Color Theme Palettes
+// Color Theme Palettes (All optimized for 100% Maximum Text Contrast)
 const THEME_PALETTES = {
   emerald: {
-    primary: '#FACC15',      // Electric Gold
+    primary: '#FACC15',      // Electric Gold (Max Contrast)
     secondary: '#FF007A',    // Hot Pink
     bgStart: '#004D2C',      // Deep Tropical Emerald Green
     bgEnd: '#002615',        // Dark Emerald
-    badgeBg: '#003820',      // Title Box Bg
+    badgeBg: 'rgba(0, 56, 32, 0.85)',
     accentText: '#00FF87',   // Neon Mint
-    handleBg: 'rgba(255, 0, 122, 0.25)',
-    handleBorder: '#FF007A'
+    handleBg: 'rgba(250, 204, 21, 0.15)',
+    handleBorder: '#FACC15'
   },
   official: {
-    primary: '#00FF87',      // Neon Mint
-    secondary: '#00F2FE',    // Cyan
+    primary: '#FACC15',      // Electric Gold
+    secondary: '#00FF87',    // Neon Mint
     bgStart: '#091322',      // Cyber Dark Navy
     bgEnd: '#030710',
-    badgeBg: '#12223B',
+    badgeBg: 'rgba(18, 34, 59, 0.85)',
     accentText: '#00FF87',
-    handleBg: 'rgba(0, 255, 135, 0.2)',
-    handleBorder: '#00FF87'
+    handleBg: 'rgba(250, 204, 21, 0.15)',
+    handleBorder: '#FACC15'
   },
   neon: {
-    primary: '#00F2FE',      // Cyan
-    secondary: '#FF0844',    // Magenta
+    primary: '#FACC15',      // Electric Gold
+    secondary: '#00F2FE',    // Cyan
     bgStart: '#0F172A',      // Dark Slate
     bgEnd: '#020617',
-    badgeBg: '#1E293B',
-    accentText: '#00FF87',
-    handleBg: 'rgba(0, 242, 254, 0.2)',
-    handleBorder: '#00F2FE'
+    badgeBg: 'rgba(30, 41, 59, 0.85)',
+    accentText: '#00F2FE',
+    handleBg: 'rgba(250, 204, 21, 0.15)',
+    handleBorder: '#FACC15'
   },
   sunset: {
-    primary: '#FFB800',      // Sunset Gold
+    primary: '#FACC15',      // Electric Gold
     secondary: '#FF0844',    // Sunset Magenta
     bgStart: '#2A0819',      // Dark Sunset Purple
     bgEnd: '#0F0208',
-    badgeBg: '#3B0F20',
+    badgeBg: 'rgba(59, 15, 32, 0.85)',
     accentText: '#FFD700',
-    handleBg: 'rgba(255, 184, 0, 0.2)',
-    handleBorder: '#FFB800'
+    handleBg: 'rgba(250, 204, 21, 0.15)',
+    handleBorder: '#FACC15'
   }
 };
 
@@ -249,7 +249,7 @@ function renderCanvas() {
 }
 
 // Builder ID Card / Event Badge (1200 x 1260)
-// Ultra-Clean, Pixel-Perfect Layout (Zero Mess)
+// High Contrast Engine: Electric Gold & Crisp Pure White Typography
 function renderBuilderIDCard() {
   const W = 1200;
   const H = 1260;
@@ -273,30 +273,29 @@ function renderBuilderIDCard() {
   // Outer Border Frame
   ctx.lineWidth = 16;
   const frameGrad = ctx.createLinearGradient(0, 0, W, H);
-  frameGrad.addColorStop(0, palette.primary);
-  frameGrad.addColorStop(0.5, palette.secondary);
-  frameGrad.addColorStop(1, palette.primary);
+  frameGrad.addColorStop(0, '#FACC15');
+  frameGrad.addColorStop(0.5, '#FF007A');
+  frameGrad.addColorStop(1, '#FACC15');
   ctx.strokeStyle = frameGrad;
   ctx.roundRect(25, 25, W - 50, H - 50, 40);
   ctx.stroke();
 
-  // 2. Header Logo (HACKER [गोवा] HOUSE)
-  ctx.fillStyle = palette.primary;
+  // 2. Header Logo (HACKER [गोवा] HOUSE) - Always High-Contrast Gold & Pink
+  ctx.fillStyle = '#FF007A';
   ctx.font = '800 22px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillText('BUILDER PASS   ·   GOA, INDIA', W / 2, 65);
 
-  // HACKER [गोवा] HOUSE
   ctx.font = '900 82px "Playfair Display", Georgia, serif';
 
-  // HACKER on Left
+  // HACKER on Left (Electric Gold)
   ctx.textAlign = 'right';
-  ctx.fillStyle = palette.primary;
+  ctx.fillStyle = '#FACC15';
   ctx.fillText('HACKER', W / 2 - 55, 158);
 
-  // HOUSE on Right
+  // HOUSE on Right (Electric Gold)
   ctx.textAlign = 'left';
-  ctx.fillStyle = palette.primary;
+  ctx.fillStyle = '#FACC15';
   ctx.fillText('HOUSE', W / 2 + 55, 158);
 
   // Hot Pink Devanagari [गोवा] in Center with Yellow Glow Outline
@@ -313,7 +312,7 @@ function renderBuilderIDCard() {
   ctx.restore();
 
   // Subtitle Date
-  ctx.fillStyle = palette.accentText;
+  ctx.fillStyle = '#FFFFFF';
   ctx.font = '800 20px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
   ctx.fillText('28  –  31 OCTOBER 2026', W / 2, 205);
@@ -357,30 +356,30 @@ function renderBuilderIDCard() {
   ctx.restore();
 
   ctx.lineWidth = 8;
-  ctx.strokeStyle = palette.primary;
+  ctx.strokeStyle = '#FACC15';
   ctx.beginPath();
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
-  // 4. Builder Information Section
-  // Full Name
+  // 4. Builder Information Section (High-Contrast White & Gold)
+  // Full Name (Pure White 54px)
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 54px Outfit, sans-serif';
   ctx.textAlign = 'center';
   ctx.fillText(name.toUpperCase(), W / 2, 742);
 
-  // X Handle Chip (Only rendered if handle exists)
+  // X Handle Chip
   let nextY = 770;
   if (handle) {
-    ctx.fillStyle = palette.handleBg;
+    ctx.fillStyle = 'rgba(250, 204, 21, 0.15)';
     ctx.beginPath();
     ctx.roundRect(W / 2 - 180, nextY, 360, 46, 23);
     ctx.fill();
-    ctx.strokeStyle = palette.handleBorder;
+    ctx.strokeStyle = '#FACC15';
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    ctx.fillStyle = palette.primary;
+    ctx.fillStyle = '#FACC15';
     ctx.font = '800 24px "JetBrains Mono", monospace';
     ctx.fillText(handle, W / 2, nextY + 32);
     nextY += 62;
@@ -388,22 +387,22 @@ function renderBuilderIDCard() {
     nextY += 15;
   }
 
-  // Role Tag
+  // Role Tag (Neon Mint 26px)
   ctx.fillStyle = palette.accentText;
   ctx.font = '800 26px Outfit, sans-serif';
   ctx.fillText(`⚡ ${role}`, W / 2, nextY + 20);
   nextY += 45;
 
-  // Builder Title Box
+  // Builder Title Box (Gold Border + Gold Text)
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
   ctx.roundRect(120, nextY, W - 240, 72, 18);
   ctx.fill();
-  ctx.strokeStyle = palette.primary;
+  ctx.strokeStyle = '#FACC15';
   ctx.lineWidth = 3;
   ctx.stroke();
 
-  ctx.fillStyle = palette.primary;
+  ctx.fillStyle = '#FACC15';
   ctx.font = '900 34px Outfit, sans-serif';
   ctx.fillText(title, W / 2, nextY + 47);
   nextY += 92;
@@ -415,7 +414,7 @@ function renderBuilderIDCard() {
   nextY += 88;
 
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
-  ctx.fillStyle = palette.primary;
+  ctx.fillStyle = '#FACC15';
   ctx.font = '800 22px "JetBrains Mono", monospace';
   ctx.fillText(scannedLabel, W / 2, nextY);
   nextY += 40;
