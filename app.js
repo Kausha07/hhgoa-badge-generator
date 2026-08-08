@@ -414,8 +414,8 @@ function renderBuilderIDCard() {
 
   // Pass ID Text
   ctx.fillStyle = '#FACC15';
-  ctx.font = '800 34px "JetBrains Mono", monospace';
-  ctx.fillText(`PASS ID: ${passIdText}`, W / 2, nextY);
+  ctx.font = '800 32px "JetBrains Mono", monospace';
+  ctx.fillText('📷 SCAN BARCODE TO VIEW PASS ID', W / 2, nextY);
   nextY += 48;
 
   // Footer Tagline
