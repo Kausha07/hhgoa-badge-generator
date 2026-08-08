@@ -6,6 +6,7 @@
 let currentFormat = 'B'; // 'A' = PFP Frame, 'B' = Builder ID Card
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
 let userImage = null;
+let userHasUploadedPhoto = false; // Strict photo requirement flag
 let cachedQRCodeImg = null;
 let lastQRData = '';
 
@@ -124,7 +125,7 @@ function createDefaultPlaceholderImage() {
   pCtx.fillStyle = '#FACC15';
   pCtx.font = 'bold 26px Outfit, sans-serif';
   pCtx.textAlign = 'center';
-  pCtx.fillText('CLICK TO UPLOAD YOUR PHOTO', 300, 310);
+  pCtx.fillText('UPLOAD PHOTO REQUIRED 📸', 300, 310);
 
   const img = new Image();
   img.src = pCanvas.toDataURL();
@@ -210,7 +211,7 @@ function resetAdjustments() {
 }
 
 // -----------------------------------------------------------------------------
-// Image Upload Handler
+// Image Upload Handler (Sets strict upload flag)
 // -----------------------------------------------------------------------------
 function handleImageUpload(e) {
   const file = e.target.files[0];
@@ -222,12 +223,27 @@ function handleImageUpload(e) {
     img.src = event.target.result;
     img.onload = () => {
       userImage = img;
+      userHasUploadedPhoto = true; // Photo is uploaded!
       resetAdjustments();
       renderCanvas();
       showToast('Photo uploaded successfully! 📸');
     };
   };
   reader.readAsDataURL(file);
+}
+
+// Check if photo is uploaded, otherwise prompt user
+function requirePhotoUpload() {
+  if (!userHasUploadedPhoto) {
+    showToast('⚠️ Please upload your photo first to generate your badge!');
+    const dropzone = document.getElementById('dropzone');
+    dropzone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    dropzone.classList.add('drag-over');
+    setTimeout(() => dropzone.classList.remove('drag-over'), 2000);
+    document.getElementById('file-input').click();
+    return false;
+  }
+  return true;
 }
 
 // -----------------------------------------------------------------------------
@@ -321,7 +337,7 @@ function renderPFPFrame() {
 
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
-// Clean Header Typography + Dual Barcode & QR Code Engine
+// Complete Dual High-Contrast Barcode + QR Code Engine
 // -----------------------------------------------------------------------------
 function renderBuilderIDCard() {
   const W = 1200;
@@ -368,7 +384,7 @@ function renderBuilderIDCard() {
   ctx.textAlign = 'right';
   ctx.fillText('GOA, INDIA · 28 – 31 OCT 2026', W - 70, 73);
 
-  // Clean Header Title (No text overlap!)
+  // Clean Header Title
   ctx.fillStyle = palette.primary;
   ctx.font = '900 58px "Playfair Display", Georgia, serif';
   ctx.textAlign = 'center';
@@ -433,7 +449,6 @@ function renderBuilderIDCard() {
   ctx.stroke();
 
   // 4. Builder Info
-  // Full Name
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 48px Outfit, sans-serif';
   ctx.textAlign = 'center';
@@ -509,7 +524,7 @@ function renderBuilderIDCard() {
 }
 
 // -----------------------------------------------------------------------------
-// Guaranteed High-Contrast Code 39 Barcode Generator
+// Code 39 Barcode Generator
 // -----------------------------------------------------------------------------
 function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.save();
@@ -640,9 +655,11 @@ function toggleAccordion(id) {
 }
 
 // -----------------------------------------------------------------------------
-// Download, Copy & Share Functions
+// Download, Copy & Share Functions (Strict Photo Requirement Enforcement)
 // -----------------------------------------------------------------------------
 function downloadGraphic() {
+  if (!requirePhotoUpload()) return;
+
   const link = document.createElement('a');
   const filename = currentFormat === 'B' ? 'HH_Goa_2026_Builder_Pass.png' : 'HH_Goa_2026_PFP_Frame.png';
   link.download = filename;
@@ -654,6 +671,8 @@ function downloadGraphic() {
 }
 
 function shareToX() {
+  if (!requirePhotoUpload()) return;
+
   const text = encodeURIComponent(
     `Just built my official HH Goa 2026 Builder Pass! 🚀🌴\n\nReady to hack in Goa. Get yours now! #FrameInGoa @HackerHouseGoa`
   );
@@ -665,6 +684,8 @@ function shareToX() {
 }
 
 async function copyImageToClipboard() {
+  if (!requirePhotoUpload()) return;
+
   try {
     canvas.toBlob(async (blob) => {
       const item = new ClipboardItem({ 'image/png': blob });
