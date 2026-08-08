@@ -213,7 +213,6 @@ function handleImageUpload(e) {
 // Validation: Require Photo, Full Name, Handle, Stack, and Builder Title
 function requireAllFields() {
   const name = document.getElementById('input-name').value.trim();
-  const handle = document.getElementById('input-handle').value.trim();
   const role = document.getElementById('input-role').value.trim();
   const title = document.getElementById('input-title').value.trim();
 
@@ -227,11 +226,6 @@ function requireAllFields() {
   if (!name) {
     showToast('⚠️ Please enter your Full Name!');
     document.getElementById('input-name').focus();
-    return false;
-  }
-  if (!handle) {
-    showToast('⚠️ Please enter your X (Twitter) Handle!');
-    document.getElementById('input-handle').focus();
     return false;
   }
   if (!role) {
