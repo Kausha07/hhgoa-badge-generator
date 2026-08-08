@@ -254,7 +254,7 @@ function renderBuilderIDCard() {
   const H = 1400;
   const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
-  const name = document.getElementById('input-name').value || 'SATOSHI NAKAMOTO';
+  const name = document.getElementById('input-name').value || 'KAUSHAL RAITHATHA';
   const rawHandle = document.getElementById('input-handle').value.trim();
   const handle = rawHandle ? `@${rawHandle.replace('@', '')}` : '';
   const role = document.getElementById('input-role').value || 'Full-Stack & AI Systems';
