@@ -1,7 +1,7 @@
 :root {
   --bg-dark: #003D23;
-  --panel-bg: rgba(0, 55, 32, 0.85);
-  --panel-border: rgba(250, 204, 21, 0.25);
+  --panel-bg: rgba(0, 55, 32, 0.88);
+  --panel-border: rgba(250, 204, 21, 0.3);
   --text-main: #FACC15;
   --text-muted: #A7F3D0;
   --accent-cyan: #FACC15;
@@ -35,28 +35,28 @@ body {
   filter: blur(140px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.3;
+  opacity: 0.35;
 }
 
 .bg-glow-1 {
-  width: 500px;
-  height: 500px;
+  width: 550px;
+  height: 550px;
   background: radial-gradient(circle, #FACC15, transparent);
   top: -100px;
   left: -100px;
 }
 
 .bg-glow-2 {
-  width: 500px;
-  height: 500px;
+  width: 550px;
+  height: 550px;
   background: radial-gradient(circle, #FF007A, transparent);
   bottom: -150px;
   right: -100px;
 }
 
 .bg-glow-3 {
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   background: radial-gradient(circle, #00FF87, transparent);
   top: 40%;
   left: 50%;
