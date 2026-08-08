@@ -1,6 +1,6 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Frame & Builder ID Pass Generator
-// Clean Goa Theme Engine & Dual Barcode/QR Scanner System
+// Exact Website Logo Typography & Dual Barcode/QR Scanner System
 // =============================================================================
 
 let currentFormat = 'B'; // 'A' = PFP Frame, 'B' = Builder ID Card
@@ -37,7 +37,7 @@ const BUILDER_TITLES = [
   "Distributed Systems Monk 🧘"
 ];
 
-// Color Theme Palettes - Goa Tropical Theme as Default
+// Color Theme Palettes
 const THEME_PALETTES = {
   emerald: {
     primary: '#FACC15',      // Electric Gold
@@ -148,7 +148,7 @@ function switchFormat(format) {
   document.getElementById('tab-format-b').classList.toggle('active', format === 'B');
 
   document.getElementById('format-b-fields').style.display = format === 'B' ? 'flex' : 'none';
-  document.getElementById('preview-mode-tag').innerText = format === 'B' ? 'Builder ID Pass' : 'PFP Overlay';
+  document.getElementById('preview-mode-tag').innerText = format === 'B' ? 'Builder ID Pass' : 'PFP Frame';
 
   if (format === 'A') {
     canvas.width = 1080;
@@ -342,7 +342,7 @@ function renderPFPFrame() {
 
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
-// Clean Tropical Goa Aesthetic (No clutter, 100% scannable)
+// Exact hhgoa.com 3-Line Header Logo (HACKER [गोवा] HOUSE)
 // -----------------------------------------------------------------------------
 function renderBuilderIDCard() {
   const W = 1200;
@@ -356,7 +356,7 @@ function renderBuilderIDCard() {
 
   ctx.save();
 
-  // 1. Tropical Deep Emerald Goa Background
+  // 1. Tropical Deep Emerald Background
   const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
   bgGrad.addColorStop(0, palette.bgStart);
   bgGrad.addColorStop(1, palette.bgEnd);
@@ -373,42 +373,57 @@ function renderBuilderIDCard() {
   ctx.roundRect(30, 30, W - 60, H - 60, 40);
   ctx.stroke();
 
-  // 2. Clean Header - Event Date Tagline
-  ctx.fillStyle = palette.primary;
+  // 2. Exact Website 3-Line Header Logo (HACKER [गोवा] HOUSE)
+  // Top Line: BUILDER PASS  ·  GOA 2026 (Hot Pink)
+  ctx.fillStyle = '#FF007A';
   ctx.font = '700 20px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('GOA, INDIA  ·  28 – 31 OCT 2026', W / 2, 75);
+  ctx.fillText('BUILDER PASS   ·   GOA 2026', W / 2, 60);
 
-  // Main Header Title: HACKER HOUSE + Pink Devanagari "गोवा" Badge
+  // Center Line: HACKER (Gold Serif) + [गोवा] (Hot Pink Devanagari) + HOUSE (Gold Serif)
   ctx.fillStyle = palette.primary;
-  ctx.font = '900 58px "Playfair Display", Georgia, serif';
+  ctx.font = '900 76px "Playfair Display", Georgia, serif';
+
+  // HACKER on Left
+  ctx.textAlign = 'right';
+  ctx.fillText('HACKER', W / 2 - 40, 152);
+
+  // HOUSE on Right
+  ctx.textAlign = 'left';
+  ctx.fillText('HOUSE', W / 2 + 40, 152);
+
+  // Hot Pink Devanagari [गोवा] in Center with Yellow Outline
+  ctx.save();
   ctx.textAlign = 'center';
-  ctx.fillText('HACKER HOUSE', W / 2 - 50, 148);
+  ctx.font = '900 48px Outfit, sans-serif';
 
-  // Pink "गोवा" Badge beside HACKER HOUSE
+  // Yellow Glow Outline
+  ctx.strokeStyle = '#FACC15';
+  ctx.lineWidth = 6;
+  ctx.strokeText('गोवा', W / 2, 148);
+
+  // Hot Pink Text Fill
   ctx.fillStyle = '#FF007A';
-  ctx.beginPath();
-  ctx.roundRect(W / 2 + 200, 102, 110, 56, 14);
-  ctx.fill();
-  ctx.strokeStyle = '#FFFFFF';
-  ctx.lineWidth = 3;
-  ctx.stroke();
+  ctx.fillText('गोवा', W / 2, 148);
+  ctx.restore();
 
+  // Bottom Line: GOA, INDIA  ·  28 – 31 OCT 2026 (White Monospace)
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 32px Outfit, sans-serif';
-  ctx.fillText('गोवा', W / 2 + 255, 142);
+  ctx.font = '700 18px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('GOA, INDIA   ·   28 – 31 OCT 2026', W / 2, 192);
 
-  // Divider Line
-  ctx.strokeStyle = 'rgba(250, 204, 21, 0.3)';
+  // Decorative Horizontal Divider
+  ctx.strokeStyle = 'rgba(250, 204, 21, 0.35)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(80, 175);
-  ctx.lineTo(W - 80, 175);
+  ctx.moveTo(80, 212);
+  ctx.lineTo(W - 80, 212);
   ctx.stroke();
 
   // 3. Photo Frame Area
   const photoX = W / 2 - 250;
-  const photoY = 205;
+  const photoY = 238;
   const photoW = 500;
   const photoH = 450;
   const photoRadius = 28;
@@ -448,12 +463,12 @@ function renderBuilderIDCard() {
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 50px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 725);
+  ctx.fillText(name.toUpperCase(), W / 2, 755);
 
   // X Handle Chip
   ctx.fillStyle = palette.handleBg;
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 170, 748, 340, 44, 22);
+  ctx.roundRect(W / 2 - 170, 778, 340, 44, 22);
   ctx.fill();
   ctx.strokeStyle = palette.handleBorder;
   ctx.lineWidth = 2;
@@ -461,17 +476,17 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 22px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 778);
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 808);
 
   // Role Tag
   ctx.fillStyle = palette.primary;
   ctx.font = '700 25px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 832);
+  ctx.fillText(`⚡ ${role}`, W / 2, 862);
 
   // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(140, 862, W - 280, 72, 18);
+  ctx.roundRect(140, 892, W - 280, 72, 18);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
   ctx.lineWidth = 3;
@@ -479,12 +494,12 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = palette.primary;
   ctx.font = '800 32px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 910);
+  ctx.fillText(title, W / 2, 940);
 
   // 5. Dual Linear Barcode & Instant Scannable QR Code Section
   const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
   const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle.toLowerCase()}`;
-  const barcodeY = 965;
+  const barcodeY = 995;
 
   // High-Contrast Linear Barcode
   drawLinearBarcode(ctx, W / 2, barcodeY, W - 360, 50, cleanHandle);
