@@ -1,10 +1,10 @@
 // =============================================================================
 // HH GOA 2026 - Ultra-Premium Brand Frame & Builder ID Pass Generator
-// Selection Task Build for Hacker House Goa 2026
+// Complete Multi-Theme Engine & Instant Scannable Barcode/QR Code System
 // =============================================================================
 
 let currentFormat = 'B'; // 'A' = PFP Frame, 'B' = Builder ID Card
-let currentTheme = 'official'; // 'official', 'emerald', 'neon', 'sunset'
+let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
 let userImage = null;
 let userHasUploadedPhoto = false; // Strict photo upload requirement flag
 let cachedQRCodeImg = null;
@@ -37,43 +37,47 @@ const BUILDER_TITLES = [
   "Distributed Systems Monk 🧘"
 ];
 
-// Color Theme Palettes
+// Color Theme Palettes for Canvas Badge
 const THEME_PALETTES = {
-  official: {
-    primary: '#00FF87',
-    secondary: '#00F2FE',
-    bgStart: '#080F1D',
-    bgEnd: '#02060D',
-    badgeBg: '#111C30',
-    accentText: '#00FF87',
-    tagBg: '#00F2FE'
-  },
   emerald: {
-    primary: '#FACC15',
-    secondary: '#FF007A',
-    bgStart: '#004D2C',
-    bgEnd: '#002B18',
-    badgeBg: '#003B22',
-    accentText: '#FACC15',
-    tagBg: '#FF007A'
+    primary: '#FACC15',      // Electric Gold
+    secondary: '#FF007A',    // Hot Pink
+    bgStart: '#004D2C',      // Deep Emerald Green
+    bgEnd: '#002515',        // Dark Emerald
+    badgeBg: '#003B22',      // Title Box Bg
+    accentText: '#00FF87',   // Neon Mint
+    handleBg: 'rgba(255, 0, 122, 0.25)',
+    handleBorder: '#FF007A'
+  },
+  official: {
+    primary: '#00FF87',      // Neon Mint
+    secondary: '#00F2FE',    // Cyan
+    bgStart: '#091322',      // Cyber Dark Navy
+    bgEnd: '#030710',
+    badgeBg: '#12223B',
+    accentText: '#00FF87',
+    handleBg: 'rgba(0, 255, 135, 0.2)',
+    handleBorder: '#00FF87'
   },
   neon: {
-    primary: '#00F2FE',
-    secondary: '#FF0844',
-    bgStart: '#0F172A',
+    primary: '#00F2FE',      // Cyan
+    secondary: '#FF0844',    // Magenta
+    bgStart: '#0F172A',      // Dark Slate
     bgEnd: '#020617',
     badgeBg: '#1E293B',
     accentText: '#00FF87',
-    tagBg: '#FF0844'
+    handleBg: 'rgba(0, 242, 254, 0.2)',
+    handleBorder: '#00F2FE'
   },
   sunset: {
-    primary: '#FFB800',
-    secondary: '#FF0844',
-    bgStart: '#2A0819',
+    primary: '#FFB800',      // Sunset Gold
+    secondary: '#FF0844',    // Sunset Magenta
+    bgStart: '#2A0819',      // Dark Sunset Purple
     bgEnd: '#0F0208',
     badgeBg: '#3B0F20',
     accentText: '#FFD700',
-    tagBg: '#FF0844'
+    handleBg: 'rgba(255, 184, 0, 0.2)',
+    handleBorder: '#FFB800'
   }
 };
 
@@ -108,12 +112,12 @@ function createDefaultPlaceholderImage() {
   const pCtx = pCanvas.getContext('2d');
 
   const grad = pCtx.createLinearGradient(0, 0, 600, 600);
-  grad.addColorStop(0, '#111C30');
-  grad.addColorStop(1, '#080F1D');
+  grad.addColorStop(0, '#004D2C');
+  grad.addColorStop(1, '#002B18');
   pCtx.fillStyle = grad;
   pCtx.fillRect(0, 0, 600, 600);
 
-  pCtx.fillStyle = 'rgba(0, 255, 135, 0.15)';
+  pCtx.fillStyle = 'rgba(250, 204, 21, 0.18)';
   pCtx.beginPath();
   pCtx.arc(300, 240, 110, 0, Math.PI * 2);
   pCtx.fill();
@@ -122,7 +126,7 @@ function createDefaultPlaceholderImage() {
   pCtx.arc(300, 520, 200, Math.PI, 0);
   pCtx.fill();
 
-  pCtx.fillStyle = '#00FF87';
+  pCtx.fillStyle = '#FACC15';
   pCtx.font = 'bold 26px Outfit, sans-serif';
   pCtx.textAlign = 'center';
   pCtx.fillText('UPLOAD PHOTO REQUIRED 📸', 300, 310);
@@ -266,7 +270,7 @@ function renderCanvas() {
 function renderPFPFrame() {
   const W = 1080;
   const H = 1080;
-  const palette = THEME_PALETTES[currentTheme];
+  const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
   ctx.save();
   ctx.fillStyle = palette.bgStart;
@@ -338,12 +342,12 @@ function renderPFPFrame() {
 
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
-// Ultra-Clean High-Contrast Typography & Dual Barcode/QR Scanner
+// Complete Dual Barcode + 100% Instant Camera Scannable QR Code Engine
 // -----------------------------------------------------------------------------
 function renderBuilderIDCard() {
   const W = 1200;
   const H = 1600;
-  const palette = THEME_PALETTES[currentTheme];
+  const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
   const name = document.getElementById('input-name').value || 'Satoshi Nakamoto';
   const handle = document.getElementById('input-handle').value || 'kaushal_dev';
@@ -385,7 +389,7 @@ function renderBuilderIDCard() {
   ctx.textAlign = 'right';
   ctx.fillText('GOA, INDIA · 28 – 31 OCT 2026', W - 70, 73);
 
-  // Clean Header Banner Text
+  // Header Banner Text
   ctx.fillStyle = palette.primary;
   ctx.font = '900 52px "Space Grotesk", sans-serif';
   ctx.textAlign = 'center';
@@ -403,7 +407,7 @@ function renderBuilderIDCard() {
   const photoX = W / 2 - 240;
   const photoY = 215;
   const photoW = 480;
-  const photoH = 440;
+  const photoH = 420;
   const photoRadius = 26;
 
   ctx.save();
@@ -436,35 +440,35 @@ function renderBuilderIDCard() {
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
-  // 4. Builder Information Section
+  // 4. Builder Info
   // Full Name
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '900 48px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 720);
+  ctx.fillText(name.toUpperCase(), W / 2, 700);
 
   // X Handle Chip
-  ctx.fillStyle = 'rgba(255, 0, 122, 0.2)';
+  ctx.fillStyle = palette.handleBg;
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 170, 742, 340, 44, 22);
+  ctx.roundRect(W / 2 - 170, 722, 340, 44, 22);
   ctx.fill();
-  ctx.strokeStyle = '#FF007A';
+  ctx.strokeStyle = palette.handleBorder;
   ctx.lineWidth = 2;
   ctx.stroke();
 
   ctx.fillStyle = '#FFFFFF';
   ctx.font = '700 22px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 772);
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 752);
 
   // Role Tag
   ctx.fillStyle = palette.primary;
   ctx.font = '700 24px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 825);
+  ctx.fillText(`⚡ ${role}`, W / 2, 805);
 
   // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(140, 855, W - 280, 72, 18);
+  ctx.roundRect(140, 835, W - 280, 70, 18);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
   ctx.lineWidth = 3;
@@ -472,42 +476,42 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = palette.primary;
   ctx.font = '800 30px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 902);
+  ctx.fillText(title, W / 2, 881);
 
   // Official Tagline Banner
   ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
   ctx.beginPath();
-  ctx.roundRect(180, 942, W - 360, 36, 12);
+  ctx.roundRect(180, 922, W - 360, 36, 12);
   ctx.fill();
 
   ctx.fillStyle = palette.primary;
   ctx.font = '700 17px "JetBrains Mono", monospace';
-  ctx.fillText('LESS NOISE. MORE SIGNAL.', W / 2, 965);
+  ctx.fillText('LESS NOISE. MORE SIGNAL.', W / 2, 945);
 
-  // 5. Dual Barcode & 100% Instant Camera Scannable QR Code Engine
+  // 5. Dual Linear Barcode & Instant Scannable QR Code Section
   const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
   const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle.toLowerCase()}`;
-  const barcodeY = 1000;
+  const barcodeY = 980;
 
   // High-Contrast Linear Barcode
   drawLinearBarcode(ctx, W / 2, barcodeY, W - 360, 45, cleanHandle);
 
   // 100% Instant Scannable QR Code
-  const qrY = barcodeY + 68;
-  drawScannableQRCode(ctx, W / 2, qrY, 140, scanTargetURL, () => renderCanvas());
+  const qrY = barcodeY + 65;
+  drawScannableQRCode(ctx, W / 2, qrY, 135, scanTargetURL, () => renderCanvas());
 
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = palette.primary;
   ctx.font = '700 20px "JetBrains Mono", monospace';
-  ctx.fillText(scannedLabel, W / 2, qrY + 172);
+  ctx.fillText(scannedLabel, W / 2, qrY + 168);
 
   ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
   ctx.font = '600 18px "JetBrains Mono", monospace';
-  ctx.fillText('VERIFIED BUILDER PASS  ·  2:47 PM STUDIO', W / 2, qrY + 204);
+  ctx.fillText('VERIFIED BUILDER PASS  ·  2:47 PM STUDIO', W / 2, qrY + 198);
 
   ctx.fillStyle = palette.accentText;
   ctx.font = '900 24px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 238);
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 232);
 
   ctx.restore();
 }
