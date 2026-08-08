@@ -1,6 +1,6 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
-// Big, Bold, High-Impact Typography & Perfected Layout Engine
+// Perfected Compact Aspect Ratio & Zero-Gap High-Contrast Layout
 // =============================================================================
 
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
@@ -18,7 +18,7 @@ const transformState = {
   flipped: false
 };
 
-// Canvas & Context (Format B Dimensions: 1200 x 1600)
+// Canvas & Context (Compact Proportional Badge: 1200 x 1350)
 const canvas = document.getElementById('badge-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -100,7 +100,7 @@ let startX, startY;
 // Initialize App
 window.addEventListener('DOMContentLoaded', () => {
   canvas.width = 1200;
-  canvas.height = 1600;
+  canvas.height = 1350; // Compact proportional badge height
   createDefaultPlaceholderImage();
   setupCanvasInteractions();
 });
@@ -232,11 +232,11 @@ function renderCanvas() {
   renderBuilderIDCard();
 }
 
-// Builder ID Card / Event Badge (1200 x 1600)
-// Big, Bold, Perfected Typography & Full Vertical Fill
+// Builder ID Card / Event Badge (1200 x 1350)
+// Zero-Gap Perfect Proportional Padding & High-Contrast Scanners
 function renderBuilderIDCard() {
   const W = 1200;
-  const H = 1600;
+  const H = 1350;
   const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
   const name = document.getElementById('input-name').value || 'SATOSHI NAKAMOTO';
@@ -254,69 +254,69 @@ function renderBuilderIDCard() {
   ctx.fillRect(0, 0, W, H);
 
   // Outer Border Frame
-  ctx.lineWidth = 18;
+  ctx.lineWidth = 16;
   const frameGrad = ctx.createLinearGradient(0, 0, W, H);
   frameGrad.addColorStop(0, palette.primary);
   frameGrad.addColorStop(0.5, palette.secondary);
   frameGrad.addColorStop(1, palette.primary);
   ctx.strokeStyle = frameGrad;
-  ctx.roundRect(30, 30, W - 60, H - 60, 44);
+  ctx.roundRect(25, 25, W - 50, H - 50, 40);
   ctx.stroke();
 
   // 2. Exact Website 3-Line Header Logo (HACKER [गोवा] HOUSE)
-  // Top Line: BUILDER PASS · GOA 2026 (Hot Pink) - BIG & BOLD
+  // Top Line: BUILDER PASS · GOA 2026 (Hot Pink)
   ctx.fillStyle = '#FF007A';
-  ctx.font = '800 24px "JetBrains Mono", monospace';
+  ctx.font = '800 22px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('BUILDER PASS   ·   GOA 2026', W / 2, 70);
+  ctx.fillText('BUILDER PASS   ·   GOA 2026', W / 2, 60);
 
   // Center Line: HACKER (Gold Serif) + [गोवा] (Hot Pink Devanagari) + HOUSE (Gold Serif)
   ctx.fillStyle = palette.primary;
-  ctx.font = '900 86px "Playfair Display", Georgia, serif';
+  ctx.font = '900 80px "Playfair Display", Georgia, serif';
 
   // HACKER on Left
   ctx.textAlign = 'right';
-  ctx.fillText('HACKER', W / 2 - 50, 172);
+  ctx.fillText('HACKER', W / 2 - 45, 150);
 
   // HOUSE on Right
   ctx.textAlign = 'left';
-  ctx.fillText('HOUSE', W / 2 + 50, 172);
+  ctx.fillText('HOUSE', W / 2 + 45, 150);
 
   // Hot Pink Devanagari [गोवा] in Center with Yellow Outline
   ctx.save();
   ctx.textAlign = 'center';
-  ctx.font = '900 56px Outfit, sans-serif';
+  ctx.font = '900 52px Outfit, sans-serif';
 
   // Yellow Glow Outline
   ctx.strokeStyle = '#FACC15';
-  ctx.lineWidth = 7;
-  ctx.strokeText('गोवा', W / 2, 168);
+  ctx.lineWidth = 6;
+  ctx.strokeText('गोवा', W / 2, 146);
 
   // Hot Pink Text Fill
   ctx.fillStyle = '#FF007A';
-  ctx.fillText('गोवा', W / 2, 168);
+  ctx.fillText('गोवा', W / 2, 146);
   ctx.restore();
 
   // Bottom Line: GOA, INDIA · 28 – 31 OCT 2026 (White Monospace)
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 22px "JetBrains Mono", monospace';
+  ctx.font = '800 20px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('GOA, INDIA   ·   28 – 31 OCT 2026', W / 2, 222);
+  ctx.fillText('GOA, INDIA   ·   28 – 31 OCT 2026', W / 2, 195);
 
   // Decorative Horizontal Divider
   ctx.strokeStyle = 'rgba(250, 204, 21, 0.4)';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.moveTo(80, 248);
-  ctx.lineTo(W - 80, 248);
+  ctx.moveTo(80, 218);
+  ctx.lineTo(W - 80, 218);
   ctx.stroke();
 
-  // 3. Photo Frame Area (540 x 480)
-  const photoX = W / 2 - 270;
-  const photoY = 275;
-  const photoW = 540;
-  const photoH = 480;
-  const photoRadius = 32;
+  // 3. Photo Frame Area (480 x 420)
+  const photoX = W / 2 - 240;
+  const photoY = 240;
+  const photoW = 480;
+  const photoH = 420;
+  const photoRadius = 28;
 
   ctx.save();
   ctx.beginPath();
@@ -342,72 +342,72 @@ function renderBuilderIDCard() {
   ctx.restore();
 
   // Photo Frame Border
-  ctx.lineWidth = 10;
+  ctx.lineWidth = 8;
   ctx.strokeStyle = palette.primary;
   ctx.beginPath();
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
-  // 4. Builder Information Section (BIG & BOLD)
-  // Full Name (Increased from 48px -> 58px)
+  // 4. Builder Information Section
+  // Full Name
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 58px Outfit, sans-serif';
+  ctx.font = '900 52px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 822);
+  ctx.fillText(name.toUpperCase(), W / 2, 715);
 
   // X Handle Chip
   ctx.fillStyle = palette.handleBg;
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 200, 848, 400, 52, 26);
+  ctx.roundRect(W / 2 - 180, 738, 360, 46, 23);
   ctx.fill();
   ctx.strokeStyle = palette.handleBorder;
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 2;
   ctx.stroke();
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 28px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 884);
+  ctx.font = '800 24px "JetBrains Mono", monospace';
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 770);
 
   // Role Tag
   ctx.fillStyle = palette.primary;
-  ctx.font = '800 30px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 945);
+  ctx.font = '800 26px Outfit, sans-serif';
+  ctx.fillText(`⚡ ${role}`, W / 2, 825);
 
   // Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(120, 978, W - 240, 82, 22);
+  ctx.roundRect(120, 855, W - 240, 72, 18);
   ctx.fill();
   ctx.strokeStyle = palette.primary;
-  ctx.lineWidth = 4;
+  ctx.lineWidth = 3;
   ctx.stroke();
 
   ctx.fillStyle = palette.primary;
-  ctx.font = '900 38px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 1033);
+  ctx.font = '900 34px Outfit, sans-serif';
+  ctx.fillText(title, W / 2, 902);
 
-  // 5. Dual Linear Barcode & Instant Scannable QR Code Section (Nested & High-Contrast)
+  // 5. Dual Linear Barcode & Instant Scannable QR Code Section (Nested & Perfectly Spaced)
   const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
   const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle.toLowerCase()}`;
-  const barcodeY = 1092;
+  const barcodeY = 952;
 
-  // High-Contrast Linear Barcode (Height 65px)
-  drawLinearBarcode(ctx, W / 2, barcodeY, W - 280, 65, cleanHandle);
+  // High-Contrast Linear Barcode (Height 55px)
+  drawLinearBarcode(ctx, W / 2, barcodeY, W - 320, 55, cleanHandle);
 
-  // 100% Instant Scannable QR Code (Large Size 170px)
-  const qrY = barcodeY + 88;
-  drawScannableQRCode(ctx, W / 2, qrY, 170, scanTargetURL, () => renderCanvas());
+  // 100% Instant Scannable QR Code (Size 145px)
+  const qrY = barcodeY + 75;
+  drawScannableQRCode(ctx, W / 2, qrY, 145, scanTargetURL, () => renderCanvas());
 
   // Pass ID Label
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = palette.primary;
-  ctx.font = '800 26px "JetBrains Mono", monospace';
-  ctx.fillText(scannedLabel, W / 2, qrY + 215);
+  ctx.font = '800 22px "JetBrains Mono", monospace';
+  ctx.fillText(scannedLabel, W / 2, qrY + 182);
 
   // Footer Tagline
   ctx.fillStyle = palette.accentText;
-  ctx.font = '900 30px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 262);
+  ctx.font = '900 26px Outfit, sans-serif';
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 224);
 
   ctx.restore();
 }
@@ -418,7 +418,7 @@ function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
 
   ctx.fillStyle = '#FFFFFF';
   ctx.beginPath();
-  ctx.roundRect(centerX - width / 2 - 20, y - 8, width + 40, height + 16, 12);
+  ctx.roundRect(centerX - width / 2 - 16, y - 6, width + 32, height + 12, 10);
   ctx.fill();
 
   ctx.fillStyle = '#000000';
@@ -445,18 +445,20 @@ function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.restore();
 }
 
-// Real 100% Scannable QR Code Canvas Engine
+// Real 100% Scannable QR Code Canvas Engine (with instant fallback box)
 function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
-  if (lastQRData === textUrl && cachedQRCodeImg) {
-    ctx.save();
-    ctx.fillStyle = '#FFFFFF';
-    ctx.beginPath();
-    ctx.roundRect(centerX - size / 2 - 12, y - 12, size + 24, size + 24, 16);
-    ctx.fill();
-    ctx.strokeStyle = '#FACC15';
-    ctx.lineWidth = 4;
-    ctx.stroke();
+  ctx.save();
 
+  // White High-Contrast Quiet Zone Box (Always drawn instantly on frame 1!)
+  ctx.fillStyle = '#FFFFFF';
+  ctx.beginPath();
+  ctx.roundRect(centerX - size / 2 - 10, y - 10, size + 20, size + 20, 14);
+  ctx.fill();
+  ctx.strokeStyle = '#FACC15';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  if (lastQRData === textUrl && cachedQRCodeImg) {
     ctx.drawImage(cachedQRCodeImg, centerX - size / 2, y, size, size);
     ctx.restore();
     return;
@@ -479,6 +481,8 @@ function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
       }
     });
   }
+
+  ctx.restore();
 }
 
 // Interactive Drag & Touch Controls on Canvas
