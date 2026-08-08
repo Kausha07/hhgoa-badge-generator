@@ -311,6 +311,18 @@ function renderPFPFrame() {
   ctx.fillText('🌴 #FrameInGoa ⚡', W / 2, H - 85);
 }
 
+// Helper to generate deterministic pass number from string
+function getPassID(handleStr) {
+  let hash = 0;
+  const str = (handleStr || 'kaushal').toLowerCase();
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  const code = Math.abs(hash % 9000) + 1000;
+  return `PASS ID: HHG-2026-${code}`;
+}
+
 // -----------------------------------------------------------------------------
 // FORMAT B: Builder ID Card / Event Badge (1200 x 1600)
 // -----------------------------------------------------------------------------
@@ -371,9 +383,9 @@ function renderBuilderIDCard() {
 
   // 4. Photo Frame Area (Rectangular Rounded Avatar)
   const photoX = W / 2 - 270;
-  const photoY = 275;
+  const photoY = 265;
   const photoW = 540;
-  const photoH = 580;
+  const photoH = 560;
   const photoRadius = 30;
 
   ctx.save();
@@ -411,14 +423,14 @@ function renderBuilderIDCard() {
   // 5. Builder Information Section
   // Full Name
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 54px Outfit, sans-serif';
+  ctx.font = '900 52px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 930);
+  ctx.fillText(name.toUpperCase(), W / 2, 895);
 
   // X Handle Badge
   ctx.fillStyle = 'rgba(29, 155, 240, 0.15)';
   ctx.beginPath();
-  ctx.roundRect(W / 2 - 180, 960, 360, 50, 25);
+  ctx.roundRect(W / 2 - 180, 920, 360, 48, 24);
   ctx.fill();
   ctx.strokeStyle = '#1D9BF0';
   ctx.lineWidth = 2;
@@ -426,53 +438,67 @@ function renderBuilderIDCard() {
 
   ctx.fillStyle = '#1D9BF0';
   ctx.font = '700 24px "JetBrains Mono", monospace';
-  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 994);
+  ctx.fillText(`@${handle.replace('@', '')}`, W / 2, 953);
 
   // Role / Stack Tag
   ctx.fillStyle = palette.accentText;
-  ctx.font = '700 28px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, 1060);
+  ctx.font = '700 26px Outfit, sans-serif';
+  ctx.fillText(`⚡ ${role}`, W / 2, 1015);
 
   // Fun Builder Title Box
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(140, 1100, W - 280, 95, 20);
+  ctx.roundRect(140, 1050, W - 280, 90, 20);
   ctx.fill();
   ctx.strokeStyle = palette.secondary;
   ctx.lineWidth = 3;
   ctx.stroke();
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 36px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, 1160);
+  ctx.font = '800 34px Outfit, sans-serif';
+  ctx.fillText(title, W / 2, 1108);
 
-  // 6. Footer Section: Barcode & Event Details
-  drawBarcode(ctx, 160, 1240, W - 320, 65, palette.primary);
+  // 6. Footer Barcode & Unique Pass ID Section
+  const barcodeY = 1175;
+  const barcodeHeight = 60;
+  drawBarcode(ctx, 180, barcodeY, W - 360, barcodeHeight, palette.primary, handle);
 
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-  ctx.font = '600 20px "JetBrains Mono", monospace';
-  ctx.fillText('VERIFIED BUILDER // GOA INDIA // 2026', W / 2, 1345);
-
+  // Pass ID Number
+  const passID = getPassID(handle);
   ctx.fillStyle = palette.primary;
+  ctx.font = '700 22px "JetBrains Mono", monospace';
+  ctx.fillText(passID, W / 2, barcodeY + barcodeHeight + 32);
+
+  // Event Tagline
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  ctx.font = '600 20px "JetBrains Mono", monospace';
+  ctx.fillText('VERIFIED BUILDER // GOA INDIA // 2026', W / 2, barcodeY + barcodeHeight + 68);
+
+  ctx.fillStyle = palette.accentText;
   ctx.font = '900 26px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, 1390);
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, barcodeY + barcodeHeight + 110);
 
   ctx.restore();
 }
 
-// Draw Decorative Barcode
-function drawBarcode(ctx, x, y, width, height, color) {
+// Draw Barcode with handle-seeded bar pattern
+function drawBarcode(ctx, x, y, width, height, color, seedStr) {
   ctx.save();
   ctx.fillStyle = color;
-  const numBars = 55;
+  const numBars = 60;
   const barWidth = width / numBars;
+  
+  let seed = 0;
+  for (let i = 0; i < seedStr.length; i++) seed += seedStr.charCodeAt(i);
 
-  // Pseudo-random deterministic barcode pattern
   for (let i = 0; i < numBars; i++) {
-    const isThick = (i * 7 + 3) % 5 === 0;
-    const isGap = (i * 3 + 1) % 4 === 0;
+    // Deterministic bar thickness based on seed
+    const val = (i * 13 + seed * 7) % 17;
+    const isThick = val > 10;
+    const isGap = val < 3 && i > 3 && i < numBars - 4; // keep outer edges solid
+
     if (!isGap) {
-      const w = isThick ? barWidth * 0.8 : barWidth * 0.4;
+      const w = isThick ? barWidth * 0.85 : barWidth * 0.45;
       ctx.fillRect(x + i * barWidth, y, w, height);
     }
   }
