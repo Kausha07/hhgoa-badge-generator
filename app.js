@@ -573,14 +573,15 @@ async function copyImageToClipboard() {
   if (!requirePhotoUpload()) return;
 
   try {
-    canvas.toBlob(async (blob) => {
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png', 1.0));
+    if (blob) {
       const item = new ClipboardItem({ 'image/png': blob });
       await navigator.clipboard.write([item]);
       triggerConfetti();
       showToast('Image copied to clipboard! Ready to paste on X 📋');
-    });
+    }
   } catch (err) {
-    showToast('Download image first to paste on X!');
+    downloadGraphic();
   }
 }
 
