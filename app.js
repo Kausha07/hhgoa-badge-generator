@@ -1,6 +1,6 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
-// Maximum WCAG AAA Contrast Engine & Crystal Clear Typography Across All Themes
+// 2X Massive High-Visibility Typography Engine & Perfected Padding Layout
 // =============================================================================
 
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
@@ -16,7 +16,7 @@ const transformState = {
   flipped: false
 };
 
-// Canvas & Context (Pixel-Perfect Event Badge: 1200 x 1260)
+// Canvas & Context (High-Res 1200 x 1360 with Massive Scaled Fonts)
 const canvas = document.getElementById('badge-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -37,13 +37,13 @@ const BUILDER_TITLES = [
 // Color Theme Palettes (All optimized for 100% Maximum Text Contrast)
 const THEME_PALETTES = {
   emerald: {
-    primary: '#FACC15',      // Electric Gold (Max Contrast)
+    primary: '#FACC15',      // Electric Gold
     secondary: '#FF007A',    // Hot Pink
     bgStart: '#004D2C',      // Deep Tropical Emerald Green
     bgEnd: '#002615',        // Dark Emerald
-    badgeBg: 'rgba(0, 56, 32, 0.85)',
+    badgeBg: 'rgba(0, 56, 32, 0.9)',
     accentText: '#00FF87',   // Neon Mint
-    handleBg: 'rgba(250, 204, 21, 0.15)',
+    handleBg: 'rgba(250, 204, 21, 0.18)',
     handleBorder: '#FACC15'
   },
   official: {
@@ -51,9 +51,9 @@ const THEME_PALETTES = {
     secondary: '#00FF87',    // Neon Mint
     bgStart: '#091322',      // Cyber Dark Navy
     bgEnd: '#030710',
-    badgeBg: 'rgba(18, 34, 59, 0.85)',
+    badgeBg: 'rgba(18, 34, 59, 0.9)',
     accentText: '#00FF87',
-    handleBg: 'rgba(250, 204, 21, 0.15)',
+    handleBg: 'rgba(250, 204, 21, 0.18)',
     handleBorder: '#FACC15'
   },
   neon: {
@@ -61,9 +61,9 @@ const THEME_PALETTES = {
     secondary: '#00F2FE',    // Cyan
     bgStart: '#0F172A',      // Dark Slate
     bgEnd: '#020617',
-    badgeBg: 'rgba(30, 41, 59, 0.85)',
+    badgeBg: 'rgba(30, 41, 59, 0.9)',
     accentText: '#00F2FE',
-    handleBg: 'rgba(250, 204, 21, 0.15)',
+    handleBg: 'rgba(250, 204, 21, 0.18)',
     handleBorder: '#FACC15'
   },
   sunset: {
@@ -71,9 +71,9 @@ const THEME_PALETTES = {
     secondary: '#FF0844',    // Sunset Magenta
     bgStart: '#2A0819',      // Dark Sunset Purple
     bgEnd: '#0F0208',
-    badgeBg: 'rgba(59, 15, 32, 0.85)',
+    badgeBg: 'rgba(59, 15, 32, 0.9)',
     accentText: '#FFD700',
-    handleBg: 'rgba(250, 204, 21, 0.15)',
+    handleBg: 'rgba(250, 204, 21, 0.18)',
     handleBorder: '#FACC15'
   }
 };
@@ -98,7 +98,7 @@ let startX, startY;
 // Initialize App
 window.addEventListener('DOMContentLoaded', () => {
   canvas.width = 1200;
-  canvas.height = 1260;
+  canvas.height = 1360;
   createDefaultPlaceholderImage();
   setupCanvasInteractions();
 });
@@ -126,7 +126,7 @@ function createDefaultPlaceholderImage() {
   pCtx.fill();
 
   pCtx.fillStyle = '#FACC15';
-  pCtx.font = 'bold 28px Outfit, sans-serif';
+  pCtx.font = 'bold 30px Outfit, sans-serif';
   pCtx.textAlign = 'center';
   pCtx.fillText('UPLOAD PHOTO REQUIRED 📸', 300, 310);
 
@@ -248,11 +248,11 @@ function renderCanvas() {
   renderBuilderIDCard();
 }
 
-// Builder ID Card / Event Badge (1200 x 1260)
-// High Contrast Engine: Electric Gold & Crisp Pure White Typography
+// Builder ID Card / Event Badge (1200 x 1360)
+// 2X Massive Typography Engine: Huge, Ultra-Readable Fonts Across Every Element
 function renderBuilderIDCard() {
   const W = 1200;
-  const H = 1260;
+  const H = 1360;
   const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
   const name = document.getElementById('input-name').value || 'SATOSHI NAKAMOTO';
@@ -271,66 +271,66 @@ function renderBuilderIDCard() {
   ctx.fillRect(0, 0, W, H);
 
   // Outer Border Frame
-  ctx.lineWidth = 16;
+  ctx.lineWidth = 18;
   const frameGrad = ctx.createLinearGradient(0, 0, W, H);
   frameGrad.addColorStop(0, '#FACC15');
   frameGrad.addColorStop(0.5, '#FF007A');
   frameGrad.addColorStop(1, '#FACC15');
   ctx.strokeStyle = frameGrad;
-  ctx.roundRect(25, 25, W - 50, H - 50, 40);
+  ctx.roundRect(25, 25, W - 50, H - 50, 44);
   ctx.stroke();
 
-  // 2. Header Logo (HACKER [गोवा] HOUSE) - Always High-Contrast Gold & Pink
+  // 2. Header Logo (HACKER [गोवा] HOUSE) - 2X Massive Typography
   ctx.fillStyle = '#FF007A';
-  ctx.font = '800 22px "JetBrains Mono", monospace';
+  ctx.font = '800 32px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('BUILDER PASS   ·   GOA, INDIA', W / 2, 65);
+  ctx.fillText('BUILDER PASS   ·   GOA, INDIA', W / 2, 75);
 
-  ctx.font = '900 82px "Playfair Display", Georgia, serif';
+  ctx.font = '900 96px "Playfair Display", Georgia, serif';
 
-  // HACKER on Left (Electric Gold)
+  // HACKER on Left (Electric Gold 96px)
   ctx.textAlign = 'right';
   ctx.fillStyle = '#FACC15';
-  ctx.fillText('HACKER', W / 2 - 55, 158);
+  ctx.fillText('HACKER', W / 2 - 60, 175);
 
-  // HOUSE on Right (Electric Gold)
+  // HOUSE on Right (Electric Gold 96px)
   ctx.textAlign = 'left';
   ctx.fillStyle = '#FACC15';
-  ctx.fillText('HOUSE', W / 2 + 55, 158);
+  ctx.fillText('HOUSE', W / 2 + 60, 175);
 
   // Hot Pink Devanagari [गोवा] in Center with Yellow Glow Outline
   ctx.save();
   ctx.textAlign = 'center';
-  ctx.font = '900 52px Outfit, sans-serif';
+  ctx.font = '900 64px Outfit, sans-serif';
 
   ctx.strokeStyle = '#FACC15';
-  ctx.lineWidth = 6;
-  ctx.strokeText('गोवा', W / 2, 154);
+  ctx.lineWidth = 7;
+  ctx.strokeText('गोवा', W / 2, 170);
 
   ctx.fillStyle = '#FF007A';
-  ctx.fillText('गोवा', W / 2, 154);
+  ctx.fillText('गोवा', W / 2, 170);
   ctx.restore();
 
-  // Subtitle Date
+  // Subtitle Date (28px White Monospace)
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '800 20px "JetBrains Mono", monospace';
+  ctx.font = '800 28px "JetBrains Mono", monospace';
   ctx.textAlign = 'center';
-  ctx.fillText('28  –  31 OCTOBER 2026', W / 2, 205);
+  ctx.fillText('28  –  31 OCTOBER 2026', W / 2, 230);
 
   // Divider Line
-  ctx.strokeStyle = 'rgba(250, 204, 21, 0.4)';
-  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgba(250, 204, 21, 0.45)';
+  ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(80, 228);
-  ctx.lineTo(W - 80, 228);
+  ctx.moveTo(70, 255);
+  ctx.lineTo(W - 70, 255);
   ctx.stroke();
 
   // 3. Photo Frame Area (460 x 440)
   const photoX = W / 2 - 230;
-  const photoY = 250;
+  const photoY = 278;
   const photoW = 460;
   const photoH = 440;
-  const photoRadius = 30;
+  const photoRadius = 32;
 
   ctx.save();
   ctx.beginPath();
@@ -355,84 +355,86 @@ function renderBuilderIDCard() {
   ctx.restore();
   ctx.restore();
 
-  ctx.lineWidth = 8;
+  ctx.lineWidth = 10;
   ctx.strokeStyle = '#FACC15';
   ctx.beginPath();
   ctx.roundRect(photoX, photoY, photoW, photoH, photoRadius);
   ctx.stroke();
 
-  // 4. Builder Information Section (High-Contrast White & Gold)
-  // Full Name (Pure White 54px)
+  // 4. Builder Information Section (2X Massive Fonts)
+  // Full Name (Pure White 68px Extra Bold)
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = '900 54px Outfit, sans-serif';
+  ctx.font = '900 68px Outfit, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(name.toUpperCase(), W / 2, 742);
+  ctx.fillText(name.toUpperCase(), W / 2, 792);
 
-  // X Handle Chip
-  let nextY = 770;
+  // X Handle Chip (36px Gold Monospace inside 58px Glass Pill)
+  let nextY = 822;
   if (handle) {
-    ctx.fillStyle = 'rgba(250, 204, 21, 0.15)';
+    ctx.fillStyle = 'rgba(250, 204, 21, 0.18)';
     ctx.beginPath();
-    ctx.roundRect(W / 2 - 180, nextY, 360, 46, 23);
+    ctx.roundRect(W / 2 - 220, nextY, 440, 58, 29);
     ctx.fill();
     ctx.strokeStyle = '#FACC15';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     ctx.stroke();
 
     ctx.fillStyle = '#FACC15';
-    ctx.font = '800 24px "JetBrains Mono", monospace';
-    ctx.fillText(handle, W / 2, nextY + 32);
-    nextY += 62;
+    ctx.font = '800 34px "JetBrains Mono", monospace';
+    ctx.fillText(handle, W / 2, nextY + 41);
+    nextY += 78;
   } else {
-    nextY += 15;
+    nextY += 20;
   }
 
-  // Role Tag (Neon Mint 26px)
+  // Role Tag (38px Neon Mint Bold)
   ctx.fillStyle = palette.accentText;
-  ctx.font = '800 26px Outfit, sans-serif';
-  ctx.fillText(`⚡ ${role}`, W / 2, nextY + 20);
-  nextY += 45;
+  ctx.font = '800 38px Outfit, sans-serif';
+  ctx.fillText(`⚡ ${role}`, W / 2, nextY + 25);
+  nextY += 58;
 
-  // Builder Title Box (Gold Border + Gold Text)
+  // Builder Title Box (46px Gold Extra Bold inside 86px Title Box)
   ctx.fillStyle = palette.badgeBg;
   ctx.beginPath();
-  ctx.roundRect(120, nextY, W - 240, 72, 18);
+  ctx.roundRect(90, nextY, W - 180, 86, 24);
   ctx.fill();
   ctx.strokeStyle = '#FACC15';
-  ctx.lineWidth = 3;
+  ctx.lineWidth = 4;
   ctx.stroke();
 
   ctx.fillStyle = '#FACC15';
-  ctx.font = '900 34px Outfit, sans-serif';
-  ctx.fillText(title, W / 2, nextY + 47);
-  nextY += 92;
+  ctx.font = '900 46px Outfit, sans-serif';
+  ctx.fillText(title, W / 2, nextY + 58);
+  nextY += 114;
 
-  // 5. Official High-Contrast Linear Barcode Scanner Section
+  // 5. Official High-Contrast Linear Barcode Scanner Section (Height 70px)
   const cleanHandle = handle ? handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() : 'BUILDER';
   
-  drawLinearBarcode(ctx, W / 2, nextY, W - 320, 58, cleanHandle);
-  nextY += 88;
+  drawLinearBarcode(ctx, W / 2, nextY, W - 280, 70, cleanHandle);
+  nextY += 104;
 
+  // Pass ID (34px Gold Monospace)
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = '#FACC15';
-  ctx.font = '800 22px "JetBrains Mono", monospace';
+  ctx.font = '800 34px "JetBrains Mono", monospace';
   ctx.fillText(scannedLabel, W / 2, nextY);
-  nextY += 40;
+  nextY += 48;
 
+  // Footer Hashtag Tagline (36px Mint Bold)
   ctx.fillStyle = palette.accentText;
-  ctx.font = '900 26px Outfit, sans-serif';
+  ctx.font = '900 36px Outfit, sans-serif';
   ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, nextY);
 
   ctx.restore();
 }
 
-// Guaranteed High-Contrast Code 39 Barcode Generator
+// Guaranteed High-Contrast Code 39 Barcode Generator (70px Height)
 function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
   ctx.save();
 
   ctx.fillStyle = '#FFFFFF';
   ctx.beginPath();
-  ctx.roundRect(centerX - width / 2 - 16, y - 6, width + 32, height + 12, 10);
+  ctx.roundRect(centerX - width / 2 - 20, y - 8, width + 40, height + 16, 12);
   ctx.fill();
 
   ctx.fillStyle = '#000000';
