@@ -1,13 +1,11 @@
 // =============================================================================
 // HH GOA 2026 - Official Brand Builder ID Pass Generator (Format B Only)
-// Mandatory Input Validation & Clean Instant Clipboard Engine
+// Ultra-Clean Proportional Aspect Ratio & High-Contrast Linear Barcode
 // =============================================================================
 
 let currentTheme = 'emerald'; // 'emerald', 'official', 'neon', 'sunset'
 let userImage = null;
 let userHasUploadedPhoto = false; // Strict photo upload requirement flag
-let cachedQRCodeImg = null;
-let lastQRData = '';
 
 // Photo Transformation State
 const transformState = {
@@ -18,7 +16,7 @@ const transformState = {
   flipped: false
 };
 
-// Canvas & Context (Compact Proportional Badge: 1200 x 1350)
+// Canvas & Context (Ultra-Clean Proportional Badge: 1200 x 1180)
 const canvas = document.getElementById('badge-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -100,7 +98,7 @@ let startX, startY;
 // Initialize App
 window.addEventListener('DOMContentLoaded', () => {
   canvas.width = 1200;
-  canvas.height = 1350;
+  canvas.height = 1180;
   createDefaultPlaceholderImage();
   setupCanvasInteractions();
 });
@@ -256,10 +254,11 @@ function renderCanvas() {
   renderBuilderIDCard();
 }
 
-// Builder ID Card / Event Badge (1200 x 1350)
+// Builder ID Card / Event Badge (1200 x 1180)
+// Ultra-Clean, Zero White Box, Perfectly Proportioned Badge
 function renderBuilderIDCard() {
   const W = 1200;
-  const H = 1350;
+  const H = 1180;
   const palette = THEME_PALETTES[currentTheme] || THEME_PALETTES.emerald;
 
   const name = document.getElementById('input-name').value || 'SATOSHI NAKAMOTO';
@@ -325,7 +324,7 @@ function renderBuilderIDCard() {
   ctx.lineTo(W - 80, 218);
   ctx.stroke();
 
-  // 3. Photo Frame Area
+  // 3. Photo Frame Area (480 x 420)
   const photoX = W / 2 - 240;
   const photoY = 240;
   const photoW = 480;
@@ -395,24 +394,20 @@ function renderBuilderIDCard() {
   ctx.font = '900 34px Outfit, sans-serif';
   ctx.fillText(title, W / 2, 902);
 
-  // 5. Dual Linear Barcode & Instant Scannable QR Code Section
+  // 5. Official High-Contrast Linear Barcode Scanner Section
   const cleanHandle = handle.replace(/[^a-zA-Z0-9]/g, '').toUpperCase() || 'KAUSHAL';
-  const scanTargetURL = `https://hhgoa.com/builder/${cleanHandle.toLowerCase()}`;
-  const barcodeY = 952;
+  const barcodeY = 955;
 
   drawLinearBarcode(ctx, W / 2, barcodeY, W - 320, 55, cleanHandle);
-
-  const qrY = barcodeY + 75;
-  drawScannableQRCode(ctx, W / 2, qrY, 145, scanTargetURL, () => renderCanvas());
 
   const scannedLabel = `PASS ID: HHG-2026-${cleanHandle}`;
   ctx.fillStyle = palette.primary;
   ctx.font = '800 22px "JetBrains Mono", monospace';
-  ctx.fillText(scannedLabel, W / 2, qrY + 182);
+  ctx.fillText(scannedLabel, W / 2, barcodeY + 88);
 
   ctx.fillStyle = palette.accentText;
   ctx.font = '900 26px Outfit, sans-serif';
-  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, qrY + 224);
+  ctx.fillText('🌴 #FrameInGoa ⚡ @HackerHouseGoa', W / 2, barcodeY + 130);
 
   ctx.restore();
 }
@@ -445,45 +440,6 @@ function drawLinearBarcode(ctx, centerX, y, width, height, handleText) {
     if (bitPattern[i] === '1') {
       ctx.fillRect(startX + i * moduleWidth, y, moduleWidth * 0.95, height);
     }
-  }
-
-  ctx.restore();
-}
-
-// Real 100% Scannable QR Code Canvas Engine
-function drawScannableQRCode(ctx, centerX, y, size, textUrl, onQrLoaded) {
-  ctx.save();
-
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath();
-  ctx.roundRect(centerX - size / 2 - 10, y - 10, size + 20, size + 20, 14);
-  ctx.fill();
-  ctx.strokeStyle = '#FACC15';
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  if (lastQRData === textUrl && cachedQRCodeImg) {
-    ctx.drawImage(cachedQRCodeImg, centerX - size / 2, y, size, size);
-    ctx.restore();
-    return;
-  }
-
-  if (typeof QRCode !== 'undefined' && QRCode.toDataURL) {
-    QRCode.toDataURL(textUrl, {
-      width: size * 2,
-      margin: 1,
-      color: { dark: '#000000', light: '#FFFFFF' }
-    }, (err, url) => {
-      if (!err && url) {
-        const img = new Image();
-        img.src = url;
-        img.onload = () => {
-          cachedQRCodeImg = img;
-          lastQRData = textUrl;
-          if (onQrLoaded) onQrLoaded();
-        };
-      }
-    });
   }
 
   ctx.restore();
@@ -585,7 +541,6 @@ async function copyImageToClipboard() {
       const item = new ClipboardItem({ 'image/png': blob });
       await navigator.clipboard.write([item]);
       
-      // Inline button feedback ONLY (Zero screen split, zero popup overlays!)
       if (copyBtn) {
         copyBtn.innerHTML = '✓ Copied to Clipboard!';
         copyBtn.style.background = 'rgba(0, 255, 135, 0.25)';
