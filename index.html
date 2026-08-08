@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>HH Goa 2026 | Frame & Builder ID Card Generator</title>
+  <!-- SEO & Social Meta Tags -->
+  <meta name="description" content="Generate your official Hacker House Goa 2026 PFP Frame and Builder Badge. Ready to share on X! #FrameInGoa" />
+  <meta property="og:title" content="HH Goa 2026 - Frame & Builder ID Card Generator" />
+  <meta property="og:description" content="Create your custom HH Goa 2026 badge & PFP frame in seconds! #FrameInGoa" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HH Goa 2026 Frame Generator" />
+  
+  <!-- Google Fonts & FontAwesome / Canvas Confetti -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background Decorative Glowing Orbs -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo-icon">🌴⚡</div>
+        <div class="brand-text">
+          <h1>HH GOA <span class="accent-text">2026</span></h1>
+          <p class="subtitle">BUILDER BADGE & PFP FRAME GENERATOR</p>
+        </div>
+      </div>
+      <div class="header-tag">
+        <span class="pulse-dot"></span>
+        <span class="tag-text">#FrameInGoa</span>
+      </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="main-content">
+      <!-- Left Panel: Controls & Inputs -->
+      <section class="controls-card">
+        <!-- Format Selector Tabs -->
+        <div class="format-tabs">
+          <button id="tab-format-b" class="tab-btn active" onclick="switchFormat('B')">
+            <span class="tab-icon">🪪</span>
+            <span class="tab-label">Format B: Builder ID Card</span>
+          </button>
+          <button id="tab-format-a" class="tab-btn" onclick="switchFormat('A')">
+            <span class="tab-icon">🖼️</span>
+            <span class="tab-label">Format A: PFP Frame</span>
+          </button>
+        </div>
+
+        <!-- Step 1: Upload Photo -->
+        <div class="control-group">
+          <label class="section-title">
+            <span class="step-num">1</span> Upload Your Photo
+          </label>
+          <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
+            <input type="file" id="file-input" accept="image/*,.heic,.heif" style="display: none;" onchange="handleImageUpload(event)" />
+            <div class="dropzone-content">
+              <div class="upload-icon">📸</div>
+              <p class="upload-text"><strong>Click to upload</strong> or drag & drop</p>
+              <p class="upload-sub">Supports JPG, PNG, WEBP & iPhone HEIC</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Format B Fields (Builder ID Card Only) -->
+        <div id="format-b-fields" class="control-group format-specific">
+          <label class="section-title">
+            <span class="step-num">2</span> Builder Info
+          </label>
+          
+          <div class="input-field">
+            <label for="input-name">Full Name / Alias</label>
+            <input type="text" id="input-name" placeholder="e.g. Kaushal Raithatha" value="Satoshi Nakamoto" oninput="renderCanvas()" />
+          </div>
+
+          <div class="input-field">
+            <label for="input-handle">X (Twitter) Handle</label>
+            <div class="input-with-prefix">
+              <span class="prefix">@</span>
+              <input type="text" id="input-handle" placeholder="username" value="kaushal_dev" oninput="renderCanvas()" />
+            </div>
+          </div>
+
+          <div class="input-field">
+            <label for="input-role">Stack / Primary Skill</label>
+            <input type="text" id="input-role" placeholder="e.g. Full-Stack AI & Rust" value="Full-Stack & AI Systems" oninput="renderCanvas()" />
+          </div>
+
+          <div class="input-field">
+            <div class="label-with-action">
+              <label for="input-title">Builder Title</label>
+              <button class="btn-random" onclick="generateRandomTitle()">⚡ Auto-Generate</button>
+            </div>
+            <input type="text" id="input-title" placeholder="e.g. GPU Whisperer" value="Kernel Alchemist ⚡" oninput="renderCanvas()" />
+          </div>
+        </div>
+
+        <!-- Theme & Style Selection -->
+        <div class="control-group">
+          <label class="section-title">
+            <span class="step-num" id="step-style-num">3</span> Theme Style
+          </label>
+          <div class="theme-picker">
+            <button class="theme-chip active" data-theme="neon" onclick="setTheme('neon')">
+              <span class="chip-color theme-neon"></span> Cyber Goa
+            </button>
+            <button class="theme-chip" data-theme="sunset" onclick="setTheme('sunset')">
+              <span class="chip-color theme-sunset"></span> Sunset Gold
+            </button>
+
+            <button class="theme-chip" data-theme="matrix" onclick="setTheme('matrix')">
+              <span class="chip-color theme-matrix"></span> Matrix Hacker
+            </button>
+            <button class="theme-chip" data-theme="minimal" onclick="setTheme('minimal')">
+              <span class="chip-color theme-minimal"></span> Electric White
+            </button>
+          </div>
+        </div>
+
+        <!-- Photo Transformation Controls -->
+        <div class="control-group">
+          <div class="accordion-header" onclick="toggleAccordion('photo-adjustments')">
+            <span class="section-title"><span class="step-num" id="step-adjust-num">4</span> Adjust & Crop Photo</span>
+            <span class="accordion-icon" id="adjust-accordion-icon">▼</span>
+          </div>
+          <div id="photo-adjustments" class="accordion-body">
+            <div class="slider-row">
+              <div class="slider-header">
+                <span>Zoom / Scale</span>
+                <span id="val-scale">1.0x</span>
+              </div>
+              <input type="range" id="slider-scale" min="0.3" max="3.0" step="0.05" value="1.0" oninput="updateAdjustment('scale', this.value)" />
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-header">
+                <span>Position X</span>
+                <span id="val-offset-x">0px</span>
+              </div>
+              <input type="range" id="slider-offset-x" min="-400" max="400" step="2" value="0" oninput="updateAdjustment('offsetX', this.value)" />
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-header">
+                <span>Position Y</span>
+                <span id="val-offset-y">0px</span>
+              </div>
+              <input type="range" id="slider-offset-y" min="-400" max="400" step="2" value="0" oninput="updateAdjustment('offsetY', this.value)" />
+            </div>
+
+            <div class="slider-row">
+              <div class="slider-header">
+                <span>Rotation</span>
+                <span id="val-rotate">0°</span>
+              </div>
+              <input type="range" id="slider-rotate" min="-180" max="180" step="1" value="0" oninput="updateAdjustment('rotate', this.value)" />
+            </div>
+
+            <div class="btn-group-sm">
+              <button class="btn-sub" onclick="flipPhoto()">↔️ Flip Photo</button>
+              <button class="btn-sub" onclick="resetAdjustments()">🔄 Reset Crop</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Panel: Live Graphic Preview & Actions -->
+      <section class="preview-card">
+        <div class="preview-header">
+          <h2>LIVE CANVAS PREVIEW</h2>
+          <span class="badge-tag" id="preview-mode-tag">Builder Pass</span>
+        </div>
+
+        <div class="canvas-wrapper">
+          <canvas id="badge-canvas" width="1200" height="1600"></canvas>
+          <div class="canvas-hint">💡 Drag or pinch image directly on canvas to reposition</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+          <button class="btn-primary" onclick="downloadGraphic()">
+            <span class="btn-icon">📥</span> Download High-Res PNG
+          </button>
+          
+          <button class="btn-share" onclick="shareToX()">
+            <span class="btn-icon">𝕏</span> Share on X (#FrameInGoa)
+          </button>
+
+          <button class="btn-secondary" onclick="copyImageToClipboard()">
+            <span class="btn-icon">📋</span> Copy Image
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Built for <strong>HH Goa 2026</strong> Shortlisting Task • Made with ⚡ & 🌴</p>
+    </footer>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

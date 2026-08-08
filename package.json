@@ -1,0 +1,12 @@
+{
+  "name": "hhgoa-id-generator",
+  "version": "1.0.0",
+  "description": "HH Goa 2026 - PFP Frame & Builder ID Card Generator",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": ["hhgoa", "id-card-generator", "pfp-frame", "hacker-house-goa"],
+  "author": "Kaushal Raithatha",
+  "license": "MIT"
+}
